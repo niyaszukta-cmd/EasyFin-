@@ -3,6 +3,7 @@ import os as _os
 import sys as _sys
 import types as _types
 
+import hashlib as _hl
 _SOURCES = {}
 _SOURCES['content'] = r'''"""EasyFin content (powered by NYZTrade): 3 age bands, 22 lessons, 264 quiz questions.
 
@@ -2586,8 +2587,10 @@ def play(lesson):
 
 _HERE = _os.path.dirname(_os.path.abspath(__file__))
 for _name in ('content', 'storage', 'ml_ui', 'ml_lessons', 'ml_bank_seed', 'ml_bank_explore', 'ml_bank_pioneer', 'i18n', 'ui', 'voice', 'activities'):
-    if _name not in _sys.modules:
+    _bid = _hl.md5(_SOURCES[_name].encode('utf-8')).hexdigest()
+    if getattr(_sys.modules.get(_name), '_ef_build', None) != _bid:
         _mod = _types.ModuleType(_name)
+        _mod._ef_build = _bid
         _mod.__file__ = _os.path.join(_HERE, _name + ".py")
         _sys.modules[_name] = _mod
         exec(compile(_SOURCES[_name], _mod.__file__, "exec"), _mod.__dict__)
