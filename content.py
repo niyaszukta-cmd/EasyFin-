@@ -1,0 +1,588 @@
+"""NYZTrade Kids content: 3 age bands, 22 lessons, 264 quiz questions.
+
+Each lesson has: a 3 part story, one game (activity) and a bank of 12 quiz
+questions. A play draws 5 random questions from the bank, so replays differ.
+Quick Quiz mode mixes questions from every lesson in an age band.
+
+A question is a tuple: (question, [options], index_of_right_option, why).
+Options are shuffled when shown. All figures are examples for teaching, not
+advice. Nothing here recommends buying any product.
+"""
+
+QUESTIONS_PER_PLAY = 5
+QUICK_QUIZ_LENGTH = 10
+
+BANDS = [
+    {"id": "seed", "name": "Seedlings", "ages": "Ages 5 to 7", "note": "Pictures, sounds and tiny steps"},
+    {"id": "explore", "name": "Explorers", "ages": "Ages 8 to 10", "note": "Habits, profit and staying safe"},
+    {"id": "pioneer", "name": "Pioneers", "ages": "Ages 11 to 14", "note": "Growth, risk and the real world"},
+]
+
+# ----------------------------------------------------------------- Seedlings
+S1 = [
+    ("Which is worth the most?", ["₹2 coin", "₹5 coin", "₹10 note"], 2, "10 is bigger than 5 and 2."),
+    ("How many ₹1 coins make ₹5?", ["2", "5", "10"], 1, "Five ones make five."),
+    ("You pay ₹10 for a ₹3 toffee. How much does the shopkeeper give back?", ["₹3", "₹7", "₹10"], 1, "10 minus 3 is 7."),
+    ("Which number is the biggest?", ["₹5", "₹20", "₹10"], 1, "20 is more than 10 and 5."),
+    ("Where is a safe place to keep your money?", ["In a piggy bank at home", "On a bus seat", "With a stranger"], 0, "A piggy bank at home keeps it safe."),
+    ("What do we give the shopkeeper to buy a biscuit?", ["Money", "Leaves", "Stones"], 0, "Shops accept money."),
+    ("Two ₹5 coins make how much?", ["₹7", "₹10", "₹52"], 1, "5 plus 5 is 10."),
+    ("Which one is made of paper?", ["A note", "A coin", "A key"], 0, "Notes are paper money."),
+    ("₹5 + ₹5 + ₹1 = ?", ["₹10", "₹11", "₹55"], 1, "10 plus 1 is 11."),
+    ("A pencil costs ₹6. You have ₹5. What do you need?", ["₹1 more", "₹5 more", "Nothing"], 0, "6 minus 5 is 1."),
+    ("Which shows the most money?", ["Three ₹1 coins", "One ₹5 coin", "Two ₹1 coins"], 1, "5 is more than 3 or 2."),
+    ("You find a coin on the road. What should you do?", ["Tell a grown-up", "Throw it away", "Hide it"], 0, "A grown-up can help."),
+]
+S2 = [
+    ("Which one is a need?", ["Chocolate", "Warm food", "Toy robot"], 1, "Food keeps us healthy."),
+    ("You want a new toy, but you also need school books. What comes first?", ["The toy", "The school books", "Both, always"], 1, "Needs come first. The toy can wait."),
+    ("Is it wrong to buy things we want?", ["Yes, never", "No, once needs are done and we have saved for it", "Only on Sundays"], 1, "Wants are fine when we plan for them."),
+    ("Which one is a want?", ["Water", "Medicine", "Video game"], 2, "We can live without a video game."),
+    ("Which do we need every day to live?", ["Food and water", "Balloons", "Stickers"], 0, "Food and water keep our body working."),
+    ("Ice cream is a...", ["Need", "Want", "Medicine"], 1, "It is a nice treat."),
+    ("School books and a school bag are...", ["Needs for learning", "Only wants", "Not useful"], 0, "They help us learn."),
+    ("Before buying a want, what should we check?", ["That we have money left after our needs", "That friends have one", "That it is on sale"], 0, "Needs are paid first."),
+    ("Medicine when we are sick is a...", ["Need", "Want", "Toy"], 0, "It helps us get better."),
+    ("A toy car is a...", ["Need", "Want", "Food"], 1, "Toys are fun but not a must."),
+    ("Which pair has two needs?", ["Food and water", "Toy and candy", "Game and balloon"], 0, "Both keep us alive and healthy."),
+    ("Money is short. What do we buy first?", ["Rice for dinner", "A sticker", "A toy"], 0, "Food is a need."),
+]
+S3 = [
+    ("Pinku saves ₹5 every day. How many days to save ₹30?", ["4 days", "6 days", "10 days"], 1, "5 times 6 is 30."),
+    ("Meera buys sweets every day. Pinku saves. Who gets the toy cycle first?", ["Meera", "Pinku", "The same day"], 1, "Saving moves you closer to the goal."),
+    ("Saving means...", ["Spending it all today", "Keeping some money for later", "Hiding it from everyone"], 1, "We keep some for later."),
+    ("Where is a good place to keep your savings?", ["A piggy bank at home", "Your open pocket", "With a stranger"], 0, "A piggy bank at home keeps it safe."),
+    ("You save ₹2 each day for 5 days. How much do you have?", ["₹7", "₹10", "₹25"], 1, "2 times 5 is 10."),
+    ("What helps you reach a big goal?", ["Patience", "Spending quickly", "Losing coins"], 0, "Small steps over time reach the goal."),
+    ("Your piggy bank has ₹20. The toy costs ₹50. How much more do you need?", ["₹20", "₹30", "₹70"], 1, "50 minus 20 is 30."),
+    ("Many small coins together can become...", ["A lot of money", "Nothing", "Less money"], 0, "Small amounts add up."),
+    ("You save ₹10 every week. How much after 4 weeks?", ["₹14", "₹40", "₹100"], 1, "10 times 4 is 40."),
+    ("When is a good time to start saving?", ["Today", "Never", "When we are old"], 0, "Starting early builds the habit."),
+    ("Which one is saving?", ["Putting ₹5 in the piggy bank", "Buying candy", "Losing a coin"], 0, "Saving means keeping the money."),
+    ("A friend asks for all your savings. What do you do?", ["Ask a trusted grown-up first", "Give it all", "Hide it"], 0, "Big money decisions are made with a grown-up."),
+]
+S4 = [
+    ("Where does money usually come from?", ["Work", "Trees", "Wishing"], 0, "People earn money by working."),
+    ("A farmer sells vegetables. What is that?", ["Earning money", "A gift", "Losing money"], 0, "Selling what you grow is earning."),
+    ("What is a gift of money?", ["Money given with love, not for work", "Money from a shop", "Money we find"], 0, "Gifts are given freely."),
+    ("A teacher teaches students. How do they earn?", ["They get a salary", "They sell toys", "They find coins"], 0, "A salary is pay for work."),
+    ("Vishu Kaineettam is...", ["Gift money from elders", "Pay for a job", "A bank loan"], 0, "Elders give it as a blessing."),
+    ("How can a young person earn a little in a fair, safe way?", ["Selling homemade cards to neighbours", "Taking money from a bag", "Asking strangers for money"], 0, "Making and selling is honest work."),
+    ("How do doctors earn money?", ["By treating sick people", "By selling sweets", "By driving buses"], 0, "Their work is helping patients."),
+    ("Why do people work?", ["To earn money for food and needs", "Only to be tired", "To lose money"], 0, "Work pays for the things we need."),
+    ("You sell 2 pencils at ₹5 each. How much do you get?", ["₹7", "₹10", "₹25"], 1, "5 times 2 is 10."),
+    ("A bus driver earns money by...", ["Driving people to places", "Reading books", "Planting trees"], 0, "Passengers pay for the ride."),
+    ("Helping at home is...", ["Something we do because we care", "Always paid", "Not allowed"], 0, "Family members help each other."),
+    ("Why does a shopkeeper charge money for biscuits?", ["They pay for the goods and earn a living", "To trick us", "Biscuits are rare"], 0, "Shopkeepers buy goods and earn from sales."),
+]
+S5 = [
+    ("Sharing means...", ["Giving some of what you have to help others", "Keeping everything", "Hiding things"], 0, "Sharing is helping."),
+    ("A friend has no lunch. What can you do?", ["Share some of yours", "Laugh at them", "Hide your lunch"], 0, "Sharing food is kind."),
+    ("Which is a kind use of money?", ["Helping someone in need", "Throwing coins away", "Hiding coins forever"], 0, "Kind money helps people."),
+    ("A charity box collects money to...", ["Help others", "Buy candy for ourselves", "Pay the bus"], 0, "Charity helps people in need."),
+    ("Is a small gift still helpful?", ["Yes, small help matters", "No, only big gifts count", "Only on festivals"], 0, "Little acts add up."),
+    ("Which is not kind?", ["Laughing at a friend with no money", "Sharing pencils", "Giving old clothes"], 0, "We never tease others."),
+    ("You outgrew your clothes. What can you do?", ["Give them to someone who needs them", "Throw them on the road", "Hide them"], 0, "Passing things on helps others."),
+    ("How does sharing often make us feel?", ["Happy", "Always sad", "Angry"], 0, "Kindness feels good."),
+    ("You have 2 laddus and a friend has none. What can you do?", ["Share one", "Eat both fast", "Hide them"], 0, "Sharing is kind."),
+    ("Who can you help with money or things?", ["Family, friends and neighbours", "Nobody", "Only strangers online"], 0, "Help people you know and trust."),
+    ("The Share jar is for...", ["Helping others", "Only toys", "Losing coins"], 0, "It is money set aside to give."),
+    ("True or false: only rich people can share.", ["False, anyone can share", "True", "Only adults"], 0, "Anyone can share something."),
+]
+S6 = [
+    ("A toffee costs ₹2. You give ₹5. What change do you get?", ["₹2", "₹3", "₹5"], 1, "5 minus 2 is 3."),
+    ("A banana costs ₹5. You give ₹10. What change do you get?", ["₹5", "₹10", "₹15"], 0, "10 minus 5 is 5."),
+    ("A pencil costs ₹7. You give ₹10. What change?", ["₹3", "₹7", "₹17"], 0, "10 minus 7 is 3."),
+    ("Which costs less?", ["₹5", "₹8", "₹10"], 0, "5 is the smallest number."),
+    ("You have ₹20 and buy a ₹15 book. How much is left?", ["₹5", "₹15", "₹35"], 0, "20 minus 15 is 5."),
+    ("The shopkeeper says ₹12. Which money pays exactly?", ["₹10 and ₹2", "₹5 and ₹5", "₹2 and ₹1"], 0, "10 plus 2 is 12."),
+    ("Why should we check our change?", ["To be sure it is right", "It is a rule for kids only", "No reason"], 0, "Everyone checks change."),
+    ("Which costs the most?", ["₹9", "₹15", "₹50"], 2, "50 is the biggest."),
+    ("Two biscuits cost ₹5 each. How much for both?", ["₹5", "₹10", "₹25"], 1, "5 plus 5 is 10."),
+    ("You have ₹10. A toy costs ₹12. What can you do?", ["Save ₹2 more", "Take it anyway", "Ask for it free"], 0, "Saving a little more gets it."),
+    ("A price tag tells us...", ["How much something costs", "Who made it", "How heavy it is"], 0, "The price is what we pay."),
+    ("You give ₹20 for a ₹20 notebook. What change?", ["₹0, no change", "₹20", "₹40"], 0, "Exact money means no change."),
+]
+S7 = [
+    ("Where is a safe place for savings?", ["At home with a trusted grown-up", "On a bus seat", "With a stranger"], 0, "Keep savings with people you trust."),
+    ("A stranger offers you money to come with them. What do you do?", ["Say no and tell a grown-up", "Go with them", "Take the money"], 0, "Never go with strangers."),
+    ("Who can know your secret PIN?", ["Only you, and your parent if needed", "All your friends", "Everyone"], 0, "PINs are secret."),
+    ("You find money on the road. What do you do?", ["Tell a grown-up", "Hide it", "Throw it away"], 0, "A grown-up can help find the owner."),
+    ("Should you show all your savings to strangers?", ["No", "Yes", "Only on Sundays"], 0, "Keep savings private."),
+    ("Before buying something online, you should...", ["Ask a parent", "Click quickly", "Share the PIN"], 0, "Online buying needs a grown-up."),
+    ("After a shop gives you change, you should...", ["Count it before you leave", "Run away", "Throw it"], 0, "Count so nothing is missing."),
+    ("Who should hold big amounts of money?", ["A grown-up you trust", "A new friend online", "Nobody"], 0, "Big money stays with trusted adults."),
+    ("A message says you won a prize. What now?", ["Show a grown-up", "Click the link", "Reply with your address"], 0, "Prize messages are often tricks."),
+    ("Your friend asks for your parent's phone PIN. You say...", ["No, it is a secret", "Yes", "Maybe"], 0, "Never share PINs."),
+    ("If you lose money, you should...", ["Tell a grown-up honestly", "Hide it", "Blame a friend"], 0, "Telling the truth helps solve it."),
+    ("Is a piggy bank at home a good place for coins?", ["Yes", "No, a rooftop is better", "No, give them to strangers"], 0, "It is safe and easy to count."),
+]
+
+# ----------------------------------------------------------------- Explorers
+E1 = [
+    ("You get ₹200 and save a quarter of it. How much do you save?", ["₹25", "₹50", "₹100"], 1, "A quarter of 200 is 50."),
+    ("What is the Share jar for?", ["Helping others or giving gifts", "Buying more toys", "Hiding money"], 0, "Sharing helps people around us."),
+    ("When is the best time to decide your split?", ["After spending everything", "Before you start spending", "Never"], 1, "A plan made first protects your savings."),
+    ("You get ₹100 and save 20%. How much do you save?", ["₹10", "₹20", "₹80"], 1, "20% of 100 is 20."),
+    ("Which jar helps you buy bigger things later?", ["Save", "Spend", "Neither"], 0, "Savings grow into bigger goals."),
+    ("Your Spend jar is empty before month end. What is best?", ["Wait for next month", "Take from the Save jar", "Borrow from a friend"], 0, "Stick to your plan and wait."),
+    ("Half of ₹200 is...", ["₹50", "₹100", "₹150"], 1, "200 divided by 2 is 100."),
+    ("Why use three jars?", ["To plan money for different uses", "To confuse people", "To lose money"], 0, "Jars give every rupee a job."),
+    ("A friend wants you to spend it all on a game. What is smart?", ["Stick to your plan", "Spend it all", "Share it all"], 0, "Plans beat impulse."),
+    ("Which is a good habit with money?", ["Save first, then spend", "Spend first, save what is left", "Never save"], 0, "Saving first makes sure it happens."),
+    ("You split ₹200 as ₹100, ₹70 and ₹30. Which total is right?", ["₹200", "₹170", "₹230"], 0, "100 plus 70 plus 30 is 200."),
+    ("Sharing a little each month teaches you to...", ["Care about others", "Waste money", "Stop saving"], 0, "Giving builds kindness."),
+]
+E2 = [
+    ("What is profit?", ["Sales plus costs", "Sales minus costs", "Only the price"], 1, "Profit is what is left after costs."),
+    ("A glass costs ₹6 to make and sells for ₹4. What happens?", ["Profit of ₹2", "Loss of ₹2 on each glass", "No change"], 1, "You get 4 but spend 6, so you lose 2."),
+    ("What usually happens when the price goes up a lot?", ["More people buy", "Fewer people buy", "Nothing"], 1, "High prices put customers off."),
+    ("You sell 10 glasses at ₹15. How much money comes in?", ["₹25", "₹150", "₹1,500"], 1, "10 times 15 is 150."),
+    ("Each glass costs ₹6 and you make 10. What are your costs?", ["₹16", "₹60", "₹600"], 1, "6 times 10 is 60."),
+    ("Sales are ₹150 and costs are ₹60. What is the profit?", ["₹210", "₹90", "₹60"], 1, "150 minus 60 is 90."),
+    ("If lemons cost more, your costs...", ["Go up", "Go down", "Stay zero"], 0, "Higher ingredient prices mean higher costs."),
+    ("Selling below cost means you...", ["Lose money", "Make more profit", "Break even"], 0, "Each sale loses money."),
+    ("Break even means...", ["Sales equal costs, no profit and no loss", "Huge profit", "Giving things away free"], 0, "You neither gain nor lose."),
+    ("On a rainy day, fewer people want cold drinks. What should you expect?", ["Lower sales", "Higher sales", "The same sales"], 0, "Weather changes demand."),
+    ("Is the highest price always the best?", ["No, too high a price can cut sales", "Yes, always", "Only on Sundays"], 0, "Find a balance."),
+    ("Which helps a stall do well?", ["A fair price and good quality", "Rude service", "Hiding the price"], 0, "Happy customers come back."),
+]
+E3 = [
+    ("Who is allowed to ask for your UPI PIN?", ["The bank", "Nobody", "A teacher"], 1, "A PIN is yours alone."),
+    ("A stranger online offers a gift if you share an OTP. What do you do?", ["Share it quickly", "Do not share, and tell a trusted adult", "Ask for two gifts"], 1, "OTPs are never shared."),
+    ("Which is the safest way to pay at a shop?", ["Pay with a parent beside you", "Send money to someone who messaged you", "Share your PIN so it is faster"], 0, "Pay with a trusted adult at a real shop."),
+    ("A link says you won a phone. What should you do?", ["Click to claim it", "Ignore it and show a grown-up", "Share it with friends"], 1, "Free prizes that need a click are usually tricks."),
+    ("A caller says they are from the bank and need your OTP. What is true?", ["Banks never ask for your OTP", "Banks always ask for it", "Only on Mondays"], 0, "Never share an OTP with anyone."),
+    ("To receive money by UPI, do you enter your PIN?", ["No, never", "Yes, always", "Only for big amounts"], 0, "A PIN is only for sending money."),
+    ("Which message looks like a scam?", ["Urgent! Your account closes in 1 hour, click here", "Your parent says dinner is ready", "Your teacher says homework is due Friday"], 0, "Scams use panic and hurry."),
+    ("A game chat friend asks for your parent's card number. You...", ["Say no and tell a parent", "Send it", "Send half"], 0, "Never share card details."),
+    ("If you think you were tricked, you should...", ["Tell a trusted adult quickly", "Hide it", "Do nothing"], 0, "Fast reporting limits damage."),
+    ("Is a screenshot of 'payment done' always proof of payment?", ["No, check your bank or app message", "Yes, always", "Only if it is blurry"], 0, "Fake screenshots exist."),
+    ("A stranger sends a request to 'collect' money from you. You should...", ["Decline it", "Enter your PIN to accept", "Share the OTP"], 0, "Approving a collect request sends your money."),
+    ("Which makes a strong password?", ["A long mix of letters, numbers and symbols", "1234", "Your birthday"], 0, "Hard-to-guess passwords are safer."),
+]
+E4 = [
+    ("What is a budget?", ["A plan for how to use money", "A kind of shop", "A bank card"], 0, "A budget tells your money where to go."),
+    ("What should a budget cover first?", ["Needs", "Wants", "Treats"], 0, "Needs come first."),
+    ("You have ₹400 and plan ₹100 for savings. What share is that?", ["10%", "25%", "50%"], 1, "100 is a quarter of 400."),
+    ("What is overspending?", ["Spending more than you planned or have", "Saving too much", "Counting coins"], 0, "Spending beyond the budget causes trouble."),
+    ("Why track your spending?", ["To see where money goes", "To spend more", "To hide it"], 0, "Tracking shows patterns."),
+    ("A new game costs more than your Fun money. What is smart?", ["Wait and save for it", "Take from School money", "Borrow secretly"], 0, "Do not take from your needs."),
+    ("An emergency fund is...", ["Money kept for surprises", "Money for toys", "Money to lend to friends"], 0, "It protects you from sudden costs."),
+    ("Your monthly money is ₹300 and you spend ₹120 on snacks. What is left?", ["₹120", "₹180", "₹420"], 1, "300 minus 120 is 180."),
+    ("Which is a good budget habit?", ["Write down money in and money out", "Guess everything", "Never look"], 0, "Writing keeps you honest."),
+    ("You plan ₹50 savings a month. How much in 6 months?", ["₹56", "₹300", "₹3,000"], 1, "50 times 6 is 300."),
+    ("Money runs out early in the month. What should you do?", ["Adjust next month's plan", "Ignore it", "Spend more"], 0, "Learn from it and improve."),
+    ("What is the first step of making a budget?", ["Know how much money you have", "Buy something", "Ask a friend"], 0, "Start with money coming in."),
+]
+E5 = [
+    ("What is a bank?", ["A place that keeps money safe and lends money", "A shop for toys", "A playground"], 0, "Banks keep and lend money."),
+    ("What is interest on savings?", ["Extra money the bank pays you for keeping money there", "A fee for losing a card", "A type of coin"], 0, "Interest rewards savers."),
+    ("Why is a bank safer than under the bed?", ["Banks protect money with security", "Banks hide it from you", "It is not safer"], 0, "Banks have locks, guards and records."),
+    ("Putting money in a bank is called...", ["Deposit", "Withdraw", "Borrow"], 0, "Deposit means putting in."),
+    ("Taking money out of an account is called...", ["Withdraw", "Deposit", "Interest"], 0, "Withdraw means taking out."),
+    ("Who helps a child open a savings account?", ["A parent or guardian", "A stranger", "Nobody"], 0, "Children need a guardian's help."),
+    ("A passbook or statement shows...", ["Money in and money out", "The weather", "Your marks"], 0, "It records your transactions."),
+    ("When you borrow from a bank, you usually pay back...", ["The money plus interest", "Less than you borrowed", "Nothing"], 0, "Interest is the price of borrowing."),
+    ("Which is a safe way to check your balance?", ["The bank's official app or branch, with a parent", "A random link in a message", "A stranger's phone"], 0, "Use official channels only."),
+    ("An ATM card is used to...", ["Take out money from your account at a machine", "Play games", "Open a shop"], 0, "Cards need PINs kept secret."),
+    ("A bank account earns more interest when you...", ["Leave money there for longer", "Spend it daily", "Share your PIN"], 0, "Time helps savings grow."),
+    ("What should you never share about your bank account?", ["PIN, OTP and password", "Your favourite colour", "Your pet's name"], 0, "Secrets protect your money."),
+]
+E6 = [
+    ("UPI stands for...", ["Unified Payments Interface", "Ultra Phone Internet", "Universal Paper Income"], 0, "UPI lets banks connect for quick payments."),
+    ("When must a UPI PIN be entered?", ["Only when sending money", "When receiving money", "Never"], 0, "Receiving money never needs a PIN."),
+    ("What does a QR code do at a shop?", ["Holds the shop's payment details", "Prints a bill", "Opens the door"], 0, "Scanning shows who you pay."),
+    ("Before paying, you should check...", ["The name and amount", "The colour of the phone", "The weather"], 0, "Make sure it is the right shop and amount."),
+    ("Who enters the PIN when you pay with a parent's phone?", ["The parent", "The shopkeeper", "A friend"], 0, "PINs stay private."),
+    ("A message says 'Pay ₹1 to claim ₹5,000'. This is...", ["A scam", "Safe", "A bank rule"], 0, "Real prizes do not ask for money first."),
+    ("What proves a payment worked?", ["The success message in your app", "A friend's word", "A screenshot alone"], 0, "Check the app."),
+    ("Is it safe to use public Wi-Fi for payments?", ["It is risky, so use mobile data or trusted Wi-Fi", "Always safe", "Only at night"], 0, "Public networks can be watched."),
+    ("A wrong UPI ID was typed. What may happen?", ["Money goes to the wrong person", "Nothing at all", "Money doubles"], 0, "Check IDs carefully."),
+    ("Why lock your phone?", ["So others cannot use your apps", "To save battery", "To hide games"], 0, "A lock protects payment apps."),
+    ("Should kids use UPI alone?", ["Use it with a parent's help", "Yes, alone, always", "Share the PIN with friends"], 0, "A trusted adult should supervise."),
+    ("What should you do if you pay by mistake?", ["Tell a parent and contact the bank or app support", "Pay again", "Ignore it"], 0, "Report quickly through official channels."),
+]
+E7 = [
+    ("A good goal says what, how much and by when. Which is best?", ["I want a football costing ₹500 in 10 weeks", "I want something someday", "I want money"], 0, "Clear goals are easier to reach."),
+    ("A goal costs ₹600. You save ₹100 a month. How many months?", ["3", "6", "60"], 1, "600 divided by 100 is 6."),
+    ("You save ₹50 a week. How much in 4 weeks?", ["₹54", "₹200", "₹500"], 1, "50 times 4 is 200."),
+    ("Breaking a big goal into small steps makes it...", ["Easier", "Harder", "Impossible"], 0, "Small steps feel doable."),
+    ("Which is better for a long goal?", ["Save a little regularly", "Wait and hope", "Spend it and borrow"], 0, "Regular saving works."),
+    ("You have ₹200 and the goal is ₹500. How much more?", ["₹200", "₹300", "₹700"], 1, "500 minus 200 is 300."),
+    ("A friend buys sweets daily. What keeps you on track?", ["Remember your goal", "Copy them", "Quit saving"], 0, "Goals give you a reason."),
+    ("Tracking your savings on a chart helps because...", ["You can see progress", "It costs money", "It slows you down"], 0, "Seeing progress keeps you going."),
+    ("A dream costs a lot. What can you do?", ["Plan, save and be patient", "Give up at once", "Take without asking"], 0, "Patience and planning make dreams real."),
+    ("A goal to buy a toy is a...", ["Want, planned for", "Need", "Medicine"], 0, "Wants are fine when planned."),
+    ("You reach your goal early. What can you do?", ["Celebrate and set a new goal", "Hide the money", "Never save again"], 0, "Keep the habit going."),
+    ("What can make a goal take longer?", ["Spending the saved money", "Saving more", "Counting coins"], 0, "Spending slows you down."),
+]
+
+# ----------------------------------------------------------------- Pioneers
+P1 = [
+    ("₹1,000 grows at 10% a year with compounding. What is it after 2 years?", ["₹1,200", "₹1,210", "₹1,100"], 1, "It becomes 1,100 after year one, then 10% of 1,100 adds 110."),
+    ("What helps compounding the most?", ["Starting early and staying invested", "Waiting until you are older", "Spending the interest right away"], 0, "More time means more growth on growth."),
+    ("Interest earned on past interest is called...", ["Simple interest", "Compound interest", "Pocket money"], 1, "That is the definition of compounding."),
+    ("₹100 grows 10% a year for 3 years with compounding. About how much?", ["₹130", "₹133", "₹300"], 1, "100 times 1.1 three times is 133.1."),
+    ("The Rule of 72 says money doubles in about 72 divided by the yearly rate. At 8%, how many years?", ["About 9", "About 18", "About 72"], 0, "72 divided by 8 is 9."),
+    ("Which grows more at the same rate: ₹1,000 for 10 years or for 20 years?", ["20 years", "10 years", "They are the same"], 0, "Time is the key ingredient."),
+    ("Simple interest is paid on...", ["The original amount only", "Interest only", "Nothing"], 0, "Compound interest also earns on past interest."),
+    ("Why do people say 'start early'?", ["Money has more time to grow", "Banks open early", "It is a law"], 0, "Early money compounds for longer."),
+    ("If growth is 0%, compounding...", ["Does nothing", "Doubles money", "Triples money"], 0, "No growth means nothing to compound."),
+    ("Regular monthly saving plus compounding is useful because...", ["Each deposit starts growing", "Banks forget it", "It avoids all risk"], 0, "Small regular amounts add up over time."),
+    ("A growth rate shown in a game is...", ["An example, not a promise", "Guaranteed", "Illegal"], 0, "Real returns vary."),
+    ("What happens if you take out your interest every year?", ["There is less compounding", "There is more compounding", "Tax vanishes"], 0, "Leaving it in lets it grow too."),
+]
+P2 = [
+    ("Why do investors spread money across different things?", ["To reduce the chance of one big loss", "To pay more tax", "Because it is a rule"], 0, "If one thing falls, others may hold up."),
+    ("A share is...", ["A loan to a friend", "A small piece of ownership in a company", "A type of coin"], 1, "Share owners own a small part of the company."),
+    ("A chance of high returns usually comes with...", ["Higher risk", "No risk", "Guaranteed profit"], 0, "Bigger possible gains usually mean bigger possible losses. Nothing is guaranteed."),
+    ("NSE and BSE are...", ["Stock exchanges in India", "Banks", "Schools"], 0, "They are places where shares are traded."),
+    ("What is diversification?", ["Not putting all your money in one place", "Spending it all", "Buying only one share"], 0, "Spreading reduces risk."),
+    ("Sensex and Nifty are...", ["Indexes that track a group of big companies", "Names of banks", "Coins"], 0, "They show how the market moves overall."),
+    ("Share prices move because...", ["Buyers and sellers change their minds", "A teacher decides", "They never move"], 0, "Demand and news move prices."),
+    ("Money needed soon, like next month's fees, should...", ["Not be put in risky investments", "Be put into shares", "Be lent to strangers"], 0, "Short-term needs call for safe money."),
+    ("Who regulates the securities market in India?", ["SEBI", "The school board", "The postal service"], 0, "SEBI protects investors."),
+    ("A dividend is...", ["A share of a company's profit paid to shareholders", "A fine", "A kind of loan"], 0, "Some companies share profits."),
+    ("Who operates an investment account for a child in India?", ["A parent or guardian", "The child alone", "A stranger"], 0, "Guardians run accounts for minors."),
+    ("Which statement is true?", ["Past performance does not guarantee future results", "Shares never fall", "Everyone gets rich fast"], 0, "Prices can go down as well as up."),
+]
+P3 = [
+    ("Prices rise 6% a year. A ₹100 snack costs how much after 1 year?", ["₹94", "₹106", "₹160"], 1, "6% of 100 is 6, so the price is 106."),
+    ("What is inflation?", ["Prices rising over time", "Money getting heavier", "Banks closing"], 0, "Inflation is a general rise in prices."),
+    ("Cash kept in a cupboard for 10 years will probably...", ["Buy more than today", "Buy less than today", "Buy exactly the same"], 1, "Prices rise, so the same cash buys less."),
+    ("A bank pays 4% and prices rise 6%. Your buying power...", ["Falls", "Rises", "Stays exactly the same"], 0, "Prices grew faster than your savings."),
+    ("A ₹100 snack at 10% yearly inflation costs how much after 2 years?", ["₹110", "₹120", "₹121"], 2, "100 times 1.1 times 1.1 is 121."),
+    ("Why do grandparents say things were cheaper?", ["Inflation raised prices over time", "Shops lied", "Money got smaller on paper"], 0, "Prices rose through the years."),
+    ("To beat inflation, savings need to grow...", ["Faster than prices rise", "Slower than prices", "Never"], 0, "Growth must outpace inflation."),
+    ("Which usually gets more expensive over many years?", ["Movie tickets and school fees", "Nothing", "Air"], 0, "Most prices drift upward."),
+    ("Pocket money stays the same while prices rise. You can buy...", ["Less", "More", "The same"], 0, "Buying power drops."),
+    ("Lower inflation means prices rise...", ["More slowly", "Faster", "Never again"], 0, "Prices still rise, only slower."),
+    ("Which can help protect money against inflation over the long term?", ["Investing wisely for growth", "Hiding cash", "Spending everything now"], 0, "Money needs to grow to keep up. Nothing is guaranteed."),
+    ("Deflation is...", ["Prices falling", "Prices rising", "No money"], 0, "It is the opposite of inflation."),
+]
+P4 = [
+    ("What is a fixed deposit (FD)?", ["Money kept with a bank for a fixed time at a set interest", "A share in a company", "A loan from a friend"], 0, "FDs offer predictable interest."),
+    ("A mutual fund...", ["Pools money from many people and invests it", "Is a guaranteed gift", "Is only for banks"], 0, "A fund manager invests the pooled money."),
+    ("Which usually has the most predictable return?", ["A bank fixed deposit", "A single share", "A lottery ticket"], 0, "FD rates are fixed in advance."),
+    ("Which is more likely to swing up and down?", ["A single company's share", "A passbook", "A piggy bank"], 0, "Shares are volatile."),
+    ("Gold prices...", ["Go up and down over time", "Never change", "Always rise"], 0, "No investment is certain."),
+    ("Why do people hold more than one kind of investment?", ["To spread risk", "To confuse tax officers", "Because FDs are illegal"], 0, "A mix reduces risk."),
+    ("Who manages a mutual fund?", ["A professional fund manager", "The child", "Random people"], 0, "Managers pick the investments."),
+    ("'Past returns do not guarantee future returns' means...", ["The future can be different", "The past always repeats", "Funds are illegal"], 0, "Always remember risk."),
+    ("Which one is like lending money to a bank?", ["A fixed deposit", "A share", "A gold coin"], 0, "Banks pay interest for using your money."),
+    ("Which gives part ownership in a business?", ["A share", "An FD", "A passbook"], 0, "Shareholders are part owners."),
+    ("Which statement is true?", ["All investing carries some risk", "FDs never end", "Gold always rises"], 0, "Understand risk before investing."),
+    ("Before investing, what should you do?", ["Learn, set goals and talk to a trusted adult", "Follow tips from strangers online", "Borrow to invest"], 0, "Never invest on tips or borrowed money."),
+]
+P5 = [
+    ("When you borrow money, you usually pay back...", ["The amount plus interest", "Less than you borrowed", "Nothing"], 0, "Interest is the cost of borrowing."),
+    ("EMI stands for...", ["Equated Monthly Instalment", "Easy Money Idea", "Extra Money Income"], 0, "It is a fixed amount paid each month."),
+    ("A higher interest rate means you pay...", ["More in total", "Less in total", "The same"], 0, "Higher rates cost more."),
+    ("A longer loan period usually means...", ["Smaller monthly payments but more total interest", "Less total interest", "No interest"], 0, "Time adds interest."),
+    ("Paying only the minimum on a credit card bill...", ["Keeps interest charges growing", "Clears the debt fast", "Gives you a gift"], 0, "Unpaid balances charge interest."),
+    ("Which loan can be useful?", ["A planned loan for education", "A loan to buy things you want on impulse", "A loan from a stranger's app"], 0, "Borrow for needs, with a plan."),
+    ("A credit score shows...", ["How reliably you repay loans", "How tall you are", "Your school marks"], 0, "Lenders use it to judge risk."),
+    ("Who should you borrow from?", ["Trusted, regulated lenders", "Unknown loan apps", "Strangers online"], 0, "Use regulated lenders."),
+    ("A loan app asks for your phone contacts and photos. You should...", ["Be careful and avoid it", "Allow everything", "Share it with friends"], 0, "Unsafe apps misuse data."),
+    ("Before taking a loan, you should check...", ["Interest rate, fees and repayment time", "The colour of the form", "Only the first month"], 0, "Know the full cost."),
+    ("A debt trap happens when...", ["You keep borrowing to repay old loans", "You save every month", "You pay on time"], 0, "It is hard to escape."),
+    ("Which is a better choice if you can wait?", ["Save up and buy later", "Borrow at high interest", "Skip your needs"], 0, "Waiting avoids interest."),
+]
+P6 = [
+    ("GST is...", ["A tax on goods and services", "A type of bank", "A school fee"], 0, "GST stands for Goods and Services Tax."),
+    ("Why do governments collect taxes?", ["To fund roads, schools and hospitals", "To buy sweets", "To close shops"], 0, "Taxes pay for public services."),
+    ("Gross salary is...", ["Salary before deductions", "Salary after tax", "Bonus only"], 0, "Net salary is what remains."),
+    ("Net salary or take-home pay is...", ["What you receive after deductions", "Salary before deductions", "The tax paid"], 0, "It is the amount that reaches you."),
+    ("A payslip shows...", ["Earnings and deductions", "The weather", "School marks"], 0, "It explains how pay is calculated."),
+    ("PAN stands for...", ["Permanent Account Number", "Public Asset Note", "Paid Amount Number"], 0, "It identifies taxpayers."),
+    ("TDS means...", ["Tax deducted at source", "Tax due on Sunday", "Total daily sales"], 0, "Tax may be deducted before you receive pay."),
+    ("Income tax is paid on...", ["Income above certain limits", "Every coin you find", "Only gifts of love"], 0, "Rules set the limits and rates."),
+    ("What does an income tax return do?", ["Reports your income and tax to the government", "Buys a house", "Opens a bank"], 0, "It is an annual report."),
+    ("A bill with GST shows...", ["Tax added to the price", "The shop's address only", "Nothing extra"], 0, "GST is part of what you pay."),
+    ("Which is a good habit with a first salary?", ["Plan: needs, savings, then wants", "Spend it all in a day", "Lend it to strangers"], 0, "Plan the money."),
+    ("Who must pay taxes?", ["People and businesses as the law requires", "Only children", "Nobody"], 0, "Everyone follows the rules for their situation."),
+]
+P7 = [
+    ("Profit margin is...", ["Profit as a share of the selling price", "The shop's rent", "A discount"], 0, "It shows how much of each sale you keep."),
+    ("A candle costs ₹40 to make and sells for ₹100. What is the profit per candle?", ["₹40", "₹60", "₹140"], 1, "100 minus 40 is 60."),
+    ("Fixed costs are...", ["Costs that stay the same, like shop rent", "Costs that change with each item", "Free"], 0, "Rent does not change with sales."),
+    ("Variable costs are...", ["Costs that change with how many you make", "Costs that never change", "Salaries only"], 0, "Materials rise with output."),
+    ("Fixed cost is ₹1,000 and profit is ₹50 per item. How many items to break even?", ["10", "20", "50"], 1, "1,000 divided by 50 is 20."),
+    ("Which helps a young business grow?", ["Happy customers and good quality", "Hiding prices", "Copying exactly"], 0, "Reputation brings repeat sales."),
+    ("Why test a product with a small batch first?", ["To learn before spending a lot", "To waste money", "To avoid customers"], 0, "Small tests reduce risk."),
+    ("Reinvesting profit means...", ["Using some profit to grow the business", "Spending it all on treats", "Hiding it"], 0, "Growth needs fuel."),
+    ("Competition means...", ["Others sell similar things", "No one sells anything", "Everything is free"], 0, "Think about how you are different."),
+    ("Pricing too low can...", ["Hurt profit", "Always bring huge profit", "Stop all costs"], 0, "You must cover your costs."),
+    ("A business plan lists...", ["Goals, costs, customers and how you will earn", "Only a name", "Only a logo"], 0, "It guides decisions."),
+    ("You make a loss in the first month. What is a smart response?", ["Learn, adjust and try again", "Quit forever", "Blame customers"], 0, "Entrepreneurs learn from mistakes."),
+]
+P8 = [
+    ("Phishing is...", ["Tricking people into sharing secrets through fake messages", "A kind of fishing sport", "A bank loan"], 0, "Scammers imitate real firms."),
+    ("A caller says you are under 'digital arrest'. What should you do?", ["Hang up and tell a trusted adult", "Pay money", "Share your Aadhaar"], 0, "Real police do not demand money on video calls."),
+    ("India's national cybercrime helpline number is...", ["1930", "100000", "555"], 0, "Report online fraud fast."),
+    ("A message says 'Update your KYC now or your account closes', with a link. You should...", ["Contact your bank using its official app or number", "Click the link", "Share the OTP"], 0, "Use official channels only."),
+    ("Which is a strong sign of a scam?", ["Pressure to act immediately", "A polite hello", "A shop receipt"], 0, "Scammers hurry you."),
+    ("Two-factor authentication...", ["Adds a second step to prove it is you", "Doubles your money", "Hides your phone"], 0, "It protects accounts."),
+    ("Public Wi-Fi is risky because...", ["Others may snoop on traffic", "It is too fast", "It costs money"], 0, "Avoid sensitive tasks on public Wi-Fi."),
+    ("A friend's account suddenly asks you for money on chat. You should...", ["Call them to confirm first", "Send money quickly", "Share your PIN"], 0, "Accounts can be hacked."),
+    ("Should you share your address and school on public social media?", ["No, keep personal details private", "Yes, always", "Only for prizes"], 0, "Oversharing helps scammers."),
+    ("Which app source is safest?", ["The official app store", "A link from a stranger", "A forwarded file"], 0, "Fake apps can steal data."),
+    ("A site offering a brand-new phone at 90% off is probably...", ["Too good to be true", "A great deal", "Government-approved"], 0, "Unbelievable offers are bait."),
+    ("If you fell for a scam, the best step is to...", ["Tell an adult, contact your bank and report it", "Stay silent", "Pay again"], 0, "Quick reporting can stop losses."),
+]
+
+# ----------------------------------------------------------------- Games
+SORT_S4 = [("🏪", "A shopkeeper sells biscuits", 0, "Selling goods is work."),
+           ("👩‍🏫", "A teacher teaches the class", 0, "Teaching is work and earns a salary."),
+           ("🎁", "Birthday money from an uncle", 1, "A gift is given freely."),
+           ("🧑‍🌾", "A farmer sells vegetables", 0, "Growing and selling is work."),
+           ("🌼", "Vishu Kaineettam from grandparents", 1, "Elders give it as a blessing."),
+           ("🩺", "A doctor treats patients", 0, "Helping patients is work.")]
+SORT_S5 = [("🍱", "Sharing your tiffin with a hungry friend", 0, "Sharing food is kind."),
+           ("😝", "Laughing at a friend who has no money", 1, "Teasing hurts people."),
+           ("🪙", "Putting a coin in a charity box", 0, "Charity helps others."),
+           ("🙈", "Taking money from a friend's bag", 1, "Taking what is not yours is wrong."),
+           ("✏️", "Lending a pencil to someone who forgot theirs", 0, "Small help is kind."),
+           ("🚫", "Refusing to ever help anybody", 1, "Kind people help when they can.")]
+SORT_S7 = [("🐷", "Keeping the piggy bank at home", 0, "Home is a safe place."),
+           ("🧑‍🤝‍🧑", "Showing all your savings to strangers", 1, "Keep savings private."),
+           ("🧮", "Counting change before leaving the shop", 0, "Counting avoids mistakes."),
+           ("🔑", "Telling a friend your parent's phone PIN", 1, "PINs are secret."),
+           ("🙋", "Telling a grown-up when you find money", 0, "A grown-up can help."),
+           ("🚌", "Leaving coins on a bus seat", 1, "You could lose them.")]
+SORT_E3 = [("💬", "A stranger in a game chat asks for your parent's card number", 1, "Never share card details with strangers."),
+           ("📲", "Mom scans the shop's QR code to pay while you stand beside her", 0, "Paying with a trusted adult at a real shop is fine."),
+           ("🎁", "A link says: You won a phone! Click now!", 1, "Free prizes that need a click are usually tricks."),
+           ("🏦", "Keeping your savings in a bank account with a parent", 0, "A bank account held with a parent is a safe place."),
+           ("📞", "A caller says: I am from the bank. Tell me your OTP.", 1, "Banks never ask for your OTP."),
+           ("🗣️", "Telling a parent when someone online asks for money", 0, "Telling a trusted adult is always smart.")]
+SORT_E5 = [("🔒", "Keeps your savings safe", 0, "Safe keeping is a bank's main job."),
+           ("➕", "Pays you interest on savings", 0, "Interest rewards savers."),
+           ("🏠", "Lends money for a fee called interest", 0, "Loans are how banks earn."),
+           ("🍦", "Sells ice cream", 1, "That is a shop's job."),
+           ("🚲", "Fixes bicycles", 1, "That is a mechanic's job."),
+           ("📒", "Gives you a passbook or statement", 0, "It records money in and out.")]
+SORT_P4 = [("🏢", "You own a tiny part of a company", 0, "That is a share."),
+           ("🧺", "Many people pool money, and an expert fund manager invests it", 1, "That is a mutual fund."),
+           ("🏦", "You lend money to a bank for a fixed time at a set rate", 2, "That is a fixed deposit."),
+           ("🪙", "Coins or jewellery that people keep for the long term", 3, "That is gold."),
+           ("📈", "Its price can swing a lot and it may pay dividends", 0, "Shares can swing and may pay dividends."),
+           ("📅", "The return is known in advance if held to the end", 2, "Fixed deposits state the rate upfront.")]
+SORT_P6 = [("💼", "Salary credited to your account", 0, "Earnings come in."),
+           ("🧾", "Income tax paid", 1, "Tax goes out."),
+           ("🏠", "Monthly rent", 1, "Rent goes out."),
+           ("🎉", "A bonus from work", 0, "A bonus comes in."),
+           ("🏦", "Interest earned on savings", 0, "Interest comes in."),
+           ("💡", "Electricity bill", 1, "Bills go out.")]
+SORT_P8 = [("📞", "A caller says you are under 'digital arrest' and must pay", 1, "Real police do not demand money on calls."),
+           ("🏦", "You check your balance in the bank's official app", 0, "Official apps are safe."),
+           ("🔗", "A link says: update KYC or your account closes today", 1, "Pressure plus a link means scam."),
+           ("🔐", "Turning on two-factor login", 0, "It protects your accounts."),
+           ("🎁", "A 90% off phone from an unknown site", 1, "Too good to be true."),
+           ("👨‍👩‍👧", "Asking a parent before installing a new app", 0, "A second opinion is smart.")]
+
+UPI_STEPS = ["Check the amount to pay", "Scan the shop's QR code with a parent", "Check the shop name shown",
+             "Parent enters the PIN", "Wait for the success message"]
+
+# ----------------------------------------------------------------- Lessons
+LESSONS = [
+    dict(id="s1", band="seed", title="Coins and Notes", art="🪙", blurb="Count out the right money for the shopkeeper.",
+         badge=("Coin Counter", "🪙"),
+         story=[("🪙", "Money is what we give to buy things we need and want."),
+                ("🏪", "The shopkeeper gives us a toffee when we give the right money."),
+                ("🔢", "Every coin and note has a number. A bigger number is more money.")],
+         act=dict(type="coins", rounds=[dict(say="The toffee jar costs", target=17, item="🍬"),
+                                        dict(say="The ice cream costs", target=26, item="🍦")]),
+         talk="At the next shop visit, let your child pay and check the change.", bank=S1),
+    dict(id="s2", band="seed", title="Needs and Wants", art="🍚", blurb="Sort things we must have from things that are nice to have.",
+         badge=("Needs Ninja", "🥷"),
+         story=[("💧", "A need is something we must have to stay healthy and safe, like food, water and medicine."),
+                ("🎮", "A want is something nice to have, like toys and games."),
+                ("🤔", "Smart kids ask: do I need it, or do I want it?")],
+         act=dict(type="sort", labels=["Need", "Want"], items=[
+             ("💧", "Clean water", 0, "We cannot live without water."), ("🎮", "Video game", 1, "Games are fun, but we can live without them."),
+             ("🍚", "Rice and curry", 0, "Food gives us energy."), ("🍦", "Ice cream", 1, "Yummy, but it is a treat."),
+             ("💊", "Medicine when sick", 0, "It helps us get better."), ("🚗", "Toy car", 1, "Toys are wants.")]),
+         talk="Ask: of the things in our kitchen, which are needs and which are treats?", bank=S2),
+    dict(id="s3", band="seed", title="My Piggy Bank", art="🐷", blurb="Save a little each day to reach a goal.",
+         badge=("Piggy Pro", "🐷"),
+         story=[("🐷", "A piggy bank keeps money safe until we need it."),
+                ("⏳", "Saving takes patience. Small amounts add up."),
+                ("🚲", "Pinku wants a ₹30 toy cycle. Let us help Pinku save.")],
+         act=dict(type="piggy", goal=30, step=5, item="🚲", unit="Day", what="toy cycle"),
+         talk="Start a real piggy bank. Agree a small goal and count the coins each week.", bank=S3),
+    dict(id="s4", band="seed", title="Earning by Helping", art="💼", blurb="Learn where money comes from.",
+         badge=("Earning Explorer", "💼"),
+         story=[("🧑‍🌾", "People work to earn money."),
+                ("🏪", "Shopkeepers, farmers, teachers and doctors all earn by helping others."),
+                ("🎁", "Money can also come as a gift, like Vishu Kaineettam. A gift is not pay for work.")],
+         act=dict(type="sort", labels=["Work", "Gift"], items=SORT_S4),
+         talk="Ask your child to name three jobs in your neighbourhood and how each earns.", bank=S4),
+    dict(id="s5", band="seed", title="Sharing and Giving", art="🤝", blurb="Small kindness helps a lot.",
+         badge=("Kind Heart", "💛"),
+         story=[("🤝", "Sharing means giving some of what we have to help others."),
+                ("🍱", "Even small kindness counts, like sharing a snack or a pencil."),
+                ("🍯", "The Share jar keeps a little money ready for helping.")],
+         act=dict(type="sort", labels=["Kind", "Not kind"], items=SORT_S5),
+         talk="Choose one small thing to give or share this week and do it together.", bank=S5),
+    dict(id="s6", band="seed", title="Shopping and Change", art="🛍️", blurb="Pay the exact price and count your change.",
+         badge=("Change Champion", "🛍️"),
+         story=[("🏷️", "A price tag tells us how much something costs."),
+                ("💵", "If we pay more than the price, the shopkeeper gives back change."),
+                ("🧮", "Always count your change before you leave.")],
+         act=dict(type="coins", rounds=[dict(say="The pencil box costs", target=12, item="✏️"),
+                                        dict(say="The storybook costs", target=33, item="📚")]),
+         talk="Give your child a small amount to buy something and count the change together.", bank=S6),
+    dict(id="s7", band="seed", title="Money Safety", art="🔐", blurb="Keep money and secrets safe.",
+         badge=("Safe Keeper", "🔐"),
+         story=[("🔒", "Money is precious, so we keep it safe."),
+                ("🧑‍🤝‍🧑", "Keep savings with a trusted grown-up. Never show them to strangers."),
+                ("🔑", "PINs and passwords are secrets. We never tell them to friends or strangers.")],
+         act=dict(type="sort", labels=["Safe", "Not safe"], items=SORT_S7),
+         talk="Agree a family rule: who we tell when we find or lose money.", bank=S7),
+
+    dict(id="e1", band="explore", title="Save, Spend, Share", art="🍯", blurb="Split your pocket money into three jars.",
+         badge=("Jar Master", "🍯"),
+         story=[("🍯", "Smart kids split pocket money into three jars: Save, Spend and Share."),
+                ("💰", "Save is for big goals. Spend is for things now. Share is for helping others."),
+                ("⚖️", "There is no single right split, but every jar should get something.")],
+         act=dict(type="alloc", kind="jars", total=200, step=10,
+                  cats=[("save", "Save"), ("spend", "Spend"), ("share", "Share")]),
+         talk="Give pocket money in three small envelopes and let your child decide the split each month.", bank=E1),
+    dict(id="e2", band="explore", title="The Nimbu Pani Stall", art="🍋", blurb="Set a price and find out if you make a profit.",
+         badge=("Profit Pro", "📈"), badge_total=600,
+         story=[("🍋", "Asha sells nimbu pani at a stall. Each glass costs her ₹6 to make."),
+                ("🏷️", "Profit is the money left from sales after you pay your costs."),
+                ("📈", "If the price is too low you lose money. If it is too high, fewer people buy.")],
+         act=dict(type="stall", product="nimbu pani", unit="glass", cost=6, base=60, slope=2.0, start=12,
+                  pmin=5, pmax=30, steps=(1, 5), target=600, good="Prices between ₹14 and ₹22 do well.",
+                  days=[("Normal day", "🌤️", 1.0), ("Hot day", "☀️", 1.25), ("Rainy day", "🌧️", 0.6)]),
+         talk="Plan a mini sale at home, such as lemonade or a book swap, and count costs and profit together.", bank=E2),
+    dict(id="e3", band="explore", title="Safe Money, Scam Alert", art="🛡️", blurb="Spot the tricks and keep your money safe.",
+         badge=("Scam Spotter", "🛡️"),
+         story=[("📱", "Digital money is useful, but cheats try to trick people."),
+                ("🔒", "Your UPI PIN and OTP are secrets. No bank or shop will ever ask for them."),
+                ("🧑‍🤝‍🧑", "If something feels odd, stop and tell a trusted adult.")],
+         act=dict(type="sort", labels=["Safe", "Scam alert"], items=SORT_E3),
+         talk="Read a recent fraud message together and spot the tricks: hurry, prizes and requests for secrets.", bank=E3),
+    dict(id="e4", band="explore", title="Budget Boss", art="📝", blurb="Plan a month of money and keep needs first.",
+         badge=("Budget Boss", "📝"),
+         story=[("📝", "A budget is a plan that tells your money where to go."),
+                ("🏠", "Needs come first. Then savings. Then fun."),
+                ("🧮", "Write down money in and money out so you can see where it goes.")],
+         act=dict(type="alloc", kind="budget", total=400, step=20,
+                  cats=[("school", "School things"), ("snacks", "Snacks"), ("fun", "Fun"), ("save", "Savings")]),
+         talk="Let your child plan one month of pocket money on paper and review it at month end.", bank=E4),
+    dict(id="e5", band="explore", title="Banks and Savings", art="🏦", blurb="See what a bank does and why interest matters.",
+         badge=("Bank Buddy", "🏦"),
+         story=[("🏦", "A bank keeps money safe and lends money to others."),
+                ("➕", "When you keep money in a savings account, the bank pays you a little interest."),
+                ("👨‍👩‍👧", "Children open accounts with a parent or guardian.")],
+         act=dict(type="sort", labels=["Banks do this", "Banks do not"], items=SORT_E5),
+         talk="Visit a branch or open the bank app together and read a statement line by line.", bank=E5),
+    dict(id="e6", band="explore", title="UPI and Digital Payments", art="📲", blurb="Pay the safe way, step by step.",
+         badge=("UPI Guard", "📲"),
+         story=[("📱", "UPI lets us pay quickly with a phone."),
+                ("🔢", "A PIN is needed only to send money. Nobody needs your PIN to give you money."),
+                ("🔍", "Always check the name and amount before you pay.")],
+         act=dict(type="order", steps=UPI_STEPS, title="Put the steps of a safe shop payment in order"),
+         talk="Next time you pay by UPI, narrate each safe step out loud.", bank=E6),
+    dict(id="e7", band="explore", title="Goals and Dreams", art="🎯", blurb="Break a big goal into weekly steps.",
+         badge=("Goal Getter", "🎯"),
+         story=[("🎯", "A goal says what you want, how much it costs, and by when."),
+                ("🪜", "Big goals get easy when split into small weekly steps."),
+                ("🎉", "Reaching a goal feels great and builds a habit.")],
+         act=dict(type="piggy", goal=500, step=50, item="⚽", unit="Week", what="football"),
+         talk="Write one goal with a price and a date on the fridge and track it weekly.", bank=E7),
+
+    dict(id="p1", band="pioneer", title="Compound Magic", art="🌱", blurb="Watch small savings grow when interest earns interest.",
+         badge=("Compound Wizard", "🧙"),
+         story=[("🌱", "When your savings earn interest and that interest earns interest too, it is called compounding."),
+                ("⏱️", "Time matters most. Starting early lets money grow for longer."),
+                ("📊", "The rates in this game are examples, not promises. Real returns change.")],
+         act=dict(type="grow"),
+         talk="Open a recurring deposit or SIP calculator and compare 5 years with 15 years of the same monthly amount.", bank=P1),
+    dict(id="p2", band="pioneer", title="The Practice Market", art="🏢", blurb="Spread practice money across made-up companies.",
+         badge=("Risk Explorer", "🧭"),
+         story=[("🏢", "A share is a small piece of ownership in a company."),
+                ("🎢", "Share prices go up and down. Some companies swing much more than others."),
+                ("🧺", "Spreading money across different things is called diversification. It makes the ride smoother. These companies are made up and the money is practice money.")],
+         act=dict(type="market"),
+         talk="Pick three brands your family uses and talk about what makes a business strong. Do not buy anything.", bank=P2),
+    dict(id="p3", band="pioneer", title="Why ₹100 Buys Less", art="🍿", blurb="See how rising prices shrink money left idle.",
+         badge=("Inflation Fighter", "🎈"),
+         story=[("🍿", "Inflation means prices rise over time."),
+                ("💸", "A snack that costs ₹100 today will cost more in the future."),
+                ("🧭", "So money sitting in a cupboard buys less each year. Money needs a plan to keep up.")],
+         act=dict(type="inflation"),
+         talk="Ask grandparents what a cup of tea or a cinema ticket cost when they were young.", bank=P3),
+    dict(id="p4", band="pioneer", title="Shares, Funds, FDs and Gold", art="🧺", blurb="Learn what each kind of investment is.",
+         badge=("Smart Mixer", "🧺"),
+         story=[("📚", "There are many ways to put money to work: shares, mutual funds, fixed deposits and gold."),
+                ("⚖️", "Each has a different mix of risk and reward."),
+                ("🧠", "This game teaches ideas only. It never tells anyone what to buy.")],
+         act=dict(type="sort", labels=["Share", "Mutual fund", "Fixed deposit", "Gold"], items=SORT_P4),
+         talk="Ask your child to explain, in their own words, the difference between a share and an FD.", bank=P4),
+    dict(id="p5", band="pioneer", title="Credit, Loans and Debt", art="🏠", blurb="See what a loan really costs.",
+         badge=("Debt Dodger", "🚧"),
+         story=[("🏠", "A loan is borrowed money that must be paid back with interest."),
+                ("📅", "Longer loans have smaller monthly payments but cost more interest in total."),
+                ("⚠️", "Borrow for needs, with a plan, from trusted and regulated lenders.")],
+         act=dict(type="loan"),
+         talk="Look at a real EMI offer together and work out the total amount paid.", bank=P5),
+    dict(id="p6", band="pioneer", title="Taxes and Salaries", art="🧾", blurb="Understand what happens to a salary.",
+         badge=("Tax Whiz", "🧾"),
+         story=[("🧾", "A payslip shows what you earn and what is taken out."),
+                ("🏛️", "Taxes help pay for roads, schools, hospitals and more."),
+                ("💡", "Knowing gross and net pay helps you plan.")],
+         act=dict(type="sort", labels=["Comes in", "Goes out"], items=SORT_P6),
+         talk="Show your child a bill with GST and point out the tax line.", bank=P6),
+    dict(id="p7", band="pioneer", title="Start a Small Business", art="🕯️", blurb="Price handmade candles and learn about margins.",
+         badge=("Young Founder", "🚀"), badge_total=9000,
+         story=[("💡", "An entrepreneur starts a business to solve a problem."),
+                ("🏭", "Income minus costs is profit. Some costs are fixed and some change with each item."),
+                ("📈", "Price, quality and customers decide success.")],
+         act=dict(type="stall", product="handmade candles", unit="candle", cost=40, base=120, slope=0.6, start=100,
+                  pmin=40, pmax=200, steps=(5, 20), target=9000, good="Prices between ₹100 and ₹140 do well.",
+                  days=[("Normal week", "🌤️", 1.0), ("Festival week", "🎆", 1.3), ("Quiet week", "🌧️", 0.7)]),
+         talk="Brainstorm a tiny business your child could run for a day and list its costs.", bank=P7),
+    dict(id="p8", band="pioneer", title="Online Fraud and Cyber Safety", art="🕵️", blurb="Spot modern scams and stay safe online.",
+         badge=("Cyber Shield", "🕵️"),
+         story=[("🕵️", "Scammers try to rush and scare people into sharing secrets."),
+                ("🛡️", "Slow down. Check using official apps and numbers."),
+                ("📣", "If something goes wrong, tell a trusted adult and report it quickly.")],
+         act=dict(type="sort", labels=["Safe", "Scam alert"], items=SORT_P8),
+         talk="Save the national cybercrime helpline number, 1930, in the family phone.", bank=P8),
+]
+
+LESSON_BY_ID = {l["id"]: l for l in LESSONS}
+BAND_BY_ID = {b["id"]: b for b in BANDS}
+
+
+def lessons_for(band):
+    return [l for l in LESSONS if l["band"] == band]
+
+
+def band_question_pool(band):
+    pool = []
+    for l in lessons_for(band):
+        pool.extend(l["bank"])
+    return pool
+
+
+def total_questions():
+    return sum(len(l["bank"]) for l in LESSONS)
+
+
+# ----------------------------------------------------------------- Self checks
+assert len(LESSONS) == 22
+for _l in LESSONS:
+    assert len(_l["story"]) == 3, _l["id"]
+    assert len(_l["bank"]) == 12, (_l["id"], len(_l["bank"]))
+    for _q in _l["bank"]:
+        assert len(_q) == 4 and 0 <= _q[2] < len(_q[1]) and len(_q[1]) >= 3, (_l["id"], _q[0])
+    if _l["act"]["type"] == "sort":
+        for _i in _l["act"]["items"]:
+            assert 0 <= _i[2] < len(_l["act"]["labels"]), (_l["id"], _i)
+assert total_questions() == 264
