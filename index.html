@@ -1,0 +1,121 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>EasyFin</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{--bg:#F6F4EE;--surface:#FFFFFF;--ink:#14302C;--muted:#52666A;--line:#D8E2DE;--brand:#0B7A75;--brand-ink:#FFFFFF;--brand-soft:#DCEFEC;--sun:#F5A524;--sun-ink:#3B2800;--sun-soft:#FFEFCF;--hero-a:#0B7A75;--hero-b:#064B48;--display:'Baloo 2','Trebuchet MS',sans-serif;--body:'Lexend',system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1817;--surface:#142726;--ink:#E8F2EF;--muted:#9BB4AF;--line:#27403E;--brand:#2FC1B8;--brand-ink:#04211F;--brand-soft:#16403D;--sun:#F7B63F;--sun-ink:#2A1C00;--sun-soft:#3A2E12;--hero-a:#0F5E5A;--hero-b:#072E2C;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0B1817;--surface:#142726;--ink:#E8F2EF;--muted:#9BB4AF;--line:#27403E;--brand:#2FC1B8;--brand-ink:#04211F;--brand-soft:#16403D;--sun:#F7B63F;--sun-ink:#2A1C00;--sun-soft:#3A2E12;--hero-a:#0F5E5A;--hero-b:#072E2C;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;padding-block:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;text-wrap:balance}
+h2{font-size:clamp(1.7rem,4.5vw,2.4rem);font-weight:800}
+h3{font-size:1.5rem;font-weight:800}
+p{margin:0}
+a{color:var(--brand)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:16px}
+.logo{font-family:var(--display);font-weight:800;font-size:1.25rem;display:flex;gap:8px;align-items:center;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:14px;background:var(--brand);color:var(--brand-ink);font-weight:600;text-decoration:none;border:2px solid var(--brand);font-family:inherit;font-size:1rem;cursor:pointer}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.small{min-height:40px;padding:0 14px;font-size:.9rem;white-space:nowrap}
+.logo{min-width:0}.logo{line-height:1.1}.by{display:block;font-family:var(--body);font-weight:500;font-size:.68rem;color:var(--muted);margin-left:0}.nav>div:last-child{flex:none}
+.btn:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+.hero{background:linear-gradient(140deg,var(--hero-a),var(--hero-b));color:#fff;border-radius:28px;padding:clamp(24px,5vw,56px);display:grid;grid-template-columns:1.3fr 1fr;gap:28px;align-items:center}
+.hero h1{font-size:clamp(2.2rem,6.5vw,3.9rem);font-weight:800}
+.hero p{max-width:34em;margin-top:14px;font-size:1.08rem;color:#E4F4F1}
+.hero .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.hero .btn{background:var(--sun);border-color:var(--sun);color:var(--sun-ink)}
+.hero .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.eyebrow{font-size:.8rem;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--brand)}
+.hero .eyebrow{color:#FFD27A}
+.phone{justify-self:center;width:min(100%,260px);background:var(--surface);color:var(--ink);border-radius:30px;padding:14px;box-shadow:0 20px 40px rgba(0,0,0,.3);border:6px solid #0A1514}
+.phone .q{font-weight:600;font-size:1rem;background:var(--bg);border-radius:14px;padding:12px}
+.phone .o{margin-top:8px;border:2px solid var(--line);border-radius:12px;padding:8px 12px;font-size:.92rem;font-weight:500}
+.phone .o.ok{border-color:#17803F;background:#DEF3E5;color:#14532D}
+.phone .bar{height:8px;border-radius:9px;background:var(--line);margin-bottom:10px;overflow:hidden}.phone .bar i{display:block;width:60%;height:100%;background:var(--sun)}
+section{padding-block:clamp(40px,7vw,80px)}
+.lead{color:var(--muted);max-width:40em;margin-top:10px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px;list-style:none;padding:0}
+.steps li{background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:18px;min-width:0}
+.steps b{display:block;font-family:var(--display);font-size:1.25rem}
+.steps span{display:block;font-size:2rem}
+.steps small{color:var(--muted);font-size:.9rem}
+.bands{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.band{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:20px;min-width:0}
+.band header p:not(.eyebrow):not(.count){color:var(--muted);margin-top:6px;font-size:.95rem}
+.count{margin-top:10px;font-weight:600;font-size:.85rem;color:var(--sun-ink)!important;background:var(--sun-soft);display:inline-block;padding:2px 10px;border-radius:99px}
+.band ul{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:10px}
+.band li{display:flex;gap:10px;align-items:flex-start}
+.band small{color:var(--muted);font-size:.8rem}
+.lart{width:36px;height:36px;border-radius:11px;background:var(--brand-soft);display:grid;place-items:center;flex:none}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+.facts div{border-top:3px solid var(--brand);padding-top:10px;min-width:0}
+.facts b{font-family:var(--display);font-size:2.4rem;line-height:1;display:block}
+.facts span{color:var(--muted);font-size:.9rem}
+.safe{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.safe ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+.safe li{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:14px 16px}
+.safe li b{display:block}
+.safe li span{color:var(--muted);font-size:.92rem}
+details{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:14px 16px;margin-top:10px}
+summary{font-weight:600;cursor:pointer}
+details p{color:var(--muted);margin-top:8px}
+.cta{background:var(--brand-soft);border-radius:28px;padding:clamp(24px,5vw,48px);text-align:left;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+.cta p{color:var(--muted);margin-top:6px}
+footer{padding-block:28px 40px;color:var(--muted);font-size:.8rem;line-height:1.55}
+@media (max-width:820px){.hero,.safe{grid-template-columns:1fr}.steps,.facts{grid-template-columns:1fr 1fr}.bands{grid-template-columns:1fr}}
+@media (max-width:420px){.steps{grid-template-columns:1fr}.logo{font-size:1.05rem}.nav .btn.small{padding:0 10px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head><body><div class="wrap">
+<nav class="nav"><div class="logo"><span aria-hidden="true">🐿️</span><span>EasyFin<small class="by">powered by NYZTrade</small></span></div>
+<div style="display:flex;gap:8px"><button class="btn ghost small" id="themeBtn" type="button" aria-label="Change theme">Auto</button><a class="btn small" href="https://your-app-name.streamlit.app">Open the app</a></div></nav>
+
+<header class="hero">
+<div><p class="eyebrow">EasyFin · money lessons for ages 5 to 14</p>
+<h1>Learn money by playing with it.</h1>
+<p>Chintu the squirrel guides children through short stories, hands-on games and quizzes. They learn to save, spend wisely, spot scams and see how money grows, using practice money only.</p>
+<div class="row"><a class="btn" href="https://your-app-name.streamlit.app">Start learning</a><a class="btn ghost" href="#curriculum">See the curriculum</a></div></div>
+<div class="phone" aria-hidden="true"><div class="bar"><i></i></div><div class="q">A ₹100 snack costs 6% more next year. What is the new price?</div><div class="o">₹94</div><div class="o ok">₹106</div><div class="o">₹160</div></div>
+</header>
+
+<section><p class="eyebrow">How a lesson works</p><h2>Story, game, quiz, reward</h2>
+<p class="lead">Every lesson takes about ten minutes and follows the same rhythm, so children always know what comes next.</p>
+<ol class="steps"><li><span>📖</span><b>Story</b><small>Three short cards, with a read-aloud button.</small></li><li><span>🎮</span><b>Game</b><small>Count coins, run a stall, plan a budget, spot a scam.</small></li><li><span>✅</span><b>Quiz</b><small>Five questions drawn from a bank of twelve. Gentle hints, no penalties.</small></li><li><span>⭐</span><b>Reward</b><small>Stars, XP, levels, streaks and badges.</small></li></ol></section>
+
+<section id="curriculum"><p class="eyebrow">Curriculum</p><h2>Three age groups, 22 lessons</h2>
+<p class="lead">Each lesson has its own game and badge. Pick the group that fits, or move up when ready.</p>
+<div class="bands"><article class="band" id="seed"><header><p class="eyebrow">Ages 5 to 7</p><h3>Seedlings</h3><p>Pictures, coins and tiny steps. Learn what money is, how to save, and how to stay safe.</p><p class="count">7 lessons, 84 questions</p></header><ul><li><span class="lart">🪙</span><span><b>Coins and Notes</b><br><small>Count out the right money for the shopkeeper.</small></span></li><li><span class="lart">🍚</span><span><b>Needs and Wants</b><br><small>Sort things we must have from things that are nice to have.</small></span></li><li><span class="lart">🐷</span><span><b>My Piggy Bank</b><br><small>Save a little each day to reach a goal.</small></span></li><li><span class="lart">💼</span><span><b>Earning by Helping</b><br><small>Learn where money comes from.</small></span></li><li><span class="lart">🤝</span><span><b>Sharing and Giving</b><br><small>Small kindness helps a lot.</small></span></li><li><span class="lart">🛍️</span><span><b>Shopping and Change</b><br><small>Pay the exact price and count your change.</small></span></li><li><span class="lart">🔐</span><span><b>Money Safety</b><br><small>Keep money and secrets safe.</small></span></li></ul></article><article class="band" id="explore"><header><p class="eyebrow">Ages 8 to 10</p><h3>Explorers</h3><p>Habits that last. Budgets, profit, banks, UPI and spotting scams.</p><p class="count">7 lessons, 84 questions</p></header><ul><li><span class="lart">🍯</span><span><b>Save, Spend, Share</b><br><small>Split your pocket money into three jars.</small></span></li><li><span class="lart">🍋</span><span><b>The Nimbu Pani Stall</b><br><small>Set a price and find out if you make a profit.</small></span></li><li><span class="lart">🛡️</span><span><b>Safe Money, Scam Alert</b><br><small>Spot the tricks and keep your money safe.</small></span></li><li><span class="lart">📝</span><span><b>Budget Boss</b><br><small>Plan a month of money and keep needs first.</small></span></li><li><span class="lart">🏦</span><span><b>Banks and Savings</b><br><small>See what a bank does and why interest matters.</small></span></li><li><span class="lart">📲</span><span><b>UPI and Digital Payments</b><br><small>Pay the safe way, step by step.</small></span></li><li><span class="lart">🎯</span><span><b>Goals and Dreams</b><br><small>Break a big goal into weekly steps.</small></span></li></ul></article><article class="band" id="pioneer"><header><p class="eyebrow">Ages 11 to 14</p><h3>Pioneers</h3><p>How money grows and what risk means. Compounding, practice markets, loans, tax and cyber safety.</p><p class="count">8 lessons, 96 questions</p></header><ul><li><span class="lart">🌱</span><span><b>Compound Magic</b><br><small>Watch small savings grow when interest earns interest.</small></span></li><li><span class="lart">🏢</span><span><b>The Practice Market</b><br><small>Spread practice money across made-up companies.</small></span></li><li><span class="lart">🍿</span><span><b>Why ₹100 Buys Less</b><br><small>See how rising prices shrink money left idle.</small></span></li><li><span class="lart">🧺</span><span><b>Shares, Funds, FDs and Gold</b><br><small>Learn what each kind of investment is.</small></span></li><li><span class="lart">🏠</span><span><b>Credit, Loans and Debt</b><br><small>See what a loan really costs.</small></span></li><li><span class="lart">🧾</span><span><b>Taxes and Salaries</b><br><small>Understand what happens to a salary.</small></span></li><li><span class="lart">🕯️</span><span><b>Start a Small Business</b><br><small>Price handmade candles and learn about margins.</small></span></li><li><span class="lart">🕵️</span><span><b>Online Fraud and Cyber Safety</b><br><small>Spot modern scams and stay safe online.</small></span></li></ul></article></div>
+<div class="facts"><div><b>22</b><span>lessons</span></div><div><b>264</b><span>quiz questions</span></div><div><b>10</b><span>different games</span></div><div><b>3</b><span>age groups</span></div></div></section>
+
+<section><p class="eyebrow">For parents and schools</p><h2>Built to be safe by design</h2>
+<div class="safe" style="margin-top:24px"><ul>
+<li><b>Practice money only</b><span>No real trading, payments or products. The practice market uses made-up companies.</span></li>
+<li><b>No advice, no tips</b><span>Lessons explain ideas such as risk, inflation and loans. They never say what to buy.</span></li>
+<li><b>Light on data</b><span>A nickname and progress. No chat, no ads, no location.</span></li></ul>
+<ul><li><b>Parent corner</b><span>Lessons done, first-try accuracy, minutes learned and a conversation starter for every lesson.</span></li>
+<li><b>Light and dark themes</b><span>Comfortable by day and at bedtime, with an auto setting that follows the device.</span></li>
+<li><b>Made for India</b><span>Rupees, UPI, Vishu Kaineettam, SIPs, FDs and the national cybercrime helpline 1930.</span></li></ul></div></section>
+
+<section><p class="eyebrow">Questions</p><h2>Good to know</h2>
+<details><summary>Is it free?</summary><p>This is a prototype. Pricing for families and schools is still to be decided.</p></details>
+<details><summary>Can my child trade shares in the app?</summary><p>No. The practice market is a game with made-up companies and made-up years. No real money moves and nothing is recommended.</p></details>
+<details><summary>Do children need an account?</summary><p>They pick a nickname, and a parent or guardian confirms they are with the child. Nothing else is collected.</p></details>
+<details><summary>Which languages?</summary><p>English today. More languages are planned.</p></details></section>
+
+<section><div class="cta"><div><h2>Ready to play?</h2><p>Open the app on a phone, tablet or laptop and start with a first lesson.</p></div><a class="btn" href="https://your-app-name.streamlit.app">Open EasyFin</a></div></section>
+
+<footer>EasyFin, powered by NYZTrade, is an educational game. It gives no investment advice or recommendations and involves no real money. All companies, prices and growth rates in the games are made up for teaching. Always involve a trusted adult in real money decisions.</footer>
+</div>
+<script>
+(function(){
+var b=document.getElementById('themeBtn'),root=document.documentElement,modes=['auto','light','dark'],i=0;
+function show(){b.textContent=modes[i].charAt(0).toUpperCase()+modes[i].slice(1)}
+b.addEventListener('click',function(){i=(i+1)%3;var m=modes[i];if(m==='auto')root.removeAttribute('data-theme');else root.setAttribute('data-theme',m);show()});
+show();
+})();
+</script>
+</body></html>
