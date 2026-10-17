@@ -5,6 +5,220 @@ import types as _types
 
 import hashlib as _hl
 _SOURCES = {}
+_SOURCES['more_data_seed'] = r'''"""Extra Seedlings questions, English and Malayalam side by side (draft: please review).
+Each item: (question, [options], right_index, why, ml_question, [ml_options], ml_why). Options keep the same order in both languages."""
+
+DATA = {
+"s1": [
+ ("Which coin is worth the least?", ["₹1 coin", "₹2 coin", "₹5 coin"], 0, "1 is the smallest number.",
+  "ഏറ്റവും വില കുറഞ്ഞ നാണയം ഏതാണ്?", ["₹1 നാണയം", "₹2 നാണയം", "₹5 നാണയം"], "1 ആണ് ഏറ്റവും ചെറിയ സംഖ്യ."),
+ ("How many ₹2 coins make ₹10?", ["2", "5", "10"], 1, "2 times 5 is 10.",
+  "₹10 ആകാൻ എത്ര ₹2 നാണയങ്ങൾ വേണം?", ["2", "5", "10"], "2 ന്റെ 5 മടങ്ങ് 10."),
+ ("A ₹10 note and a ₹5 coin together make...", ["₹15", "₹105", "₹5"], 0, "10 plus 5 is 15.",
+  "ഒരു ₹10 നോട്ടും ഒരു ₹5 നാണയവും ചേർന്നാൽ...", ["₹15", "₹105", "₹5"], "10 ഉം 5 ഉം ചേർന്നാൽ 15."),
+ ("You have ₹5. A ₹10 note is...", ["Worth more", "Worth less", "Worth the same"], 0, "10 is more than 5.",
+  "നിങ്ങളുടെ കൈയിൽ ₹5 ഉണ്ട്. ഒരു ₹10 നോട്ട്...", ["കൂടുതൽ വിലയുള്ളതാണ്", "കുറഞ്ഞ വിലയുള്ളതാണ്", "അതേ വിലയുള്ളതാണ്"], "10 എന്നത് 5 നേക്കാൾ കൂടുതലാണ്."),
+ ("What do shops give you when you pay more than the price?", ["Change", "A bill only", "Nothing"], 0, "Change is the money given back.",
+  "വിലയേക്കാൾ കൂടുതൽ കൊടുത്താൽ കടക്കാരൻ എന്താണ് തിരിച്ചു തരുന്നത്?", ["ബാക്കി തുക", "ബിൽ മാത്രം", "ഒന്നുമില്ല"], "തിരിച്ചു തരുന്ന പണമാണ് ബാക്കി തുക."),
+ ("Which of these is a paper note?", ["₹100", "₹1", "₹2"], 0, "₹1 and ₹2 are coins. ₹100 is a note.",
+  "ഇവയിൽ കടലാസ് നോട്ട് ഏതാണ്?", ["₹100", "₹1", "₹2"], "₹1 ഉം ₹2 ഉം നാണയങ്ങളാണ്. ₹100 ഒരു നോട്ടാണ്."),
+ ("Two ₹10 notes make how much?", ["₹20", "₹12", "₹102"], 0, "10 plus 10 is 20.",
+  "രണ്ട് ₹10 നോട്ടുകൾ ചേർന്നാൽ എത്ര?", ["₹20", "₹12", "₹102"], "10 ഉം 10 ഉം ചേർന്നാൽ 20."),
+ ("A ₹5 coin and a ₹2 coin together make...", ["₹7", "₹52", "₹3"], 0, "5 plus 2 is 7.",
+  "ഒരു ₹5 നാണയവും ഒരു ₹2 നാണയവും ചേർന്നാൽ...", ["₹7", "₹52", "₹3"], "5 ഉം 2 ഉം ചേർന്നാൽ 7."),
+ ("How many ₹5 coins make ₹20?", ["2", "4", "20"], 1, "5 times 4 is 20.",
+  "₹20 ആകാൻ എത്ര ₹5 നാണയങ്ങൾ വേണം?", ["2", "4", "20"], "5 ന്റെ 4 മടങ്ങ് 20."),
+ ("Which is more money?", ["₹20", "₹15", "They are the same"], 0, "20 is more than 15.",
+  "ഏതാണ് കൂടുതൽ പണം?", ["₹20", "₹15", "രണ്ടും ഒരുപോലെ"], "20 എന്നത് 15 നേക്കാൾ കൂടുതലാണ്."),
+ ("To pay ₹7 you can use a ₹5 coin and...", ["A ₹2 coin", "A ₹1 coin", "A ₹10 note"], 0, "5 plus 2 is 7.",
+  "₹7 കൊടുക്കാൻ ഒരു ₹5 നാണയത്തോടൊപ്പം ഉപയോഗിക്കാവുന്നത്...", ["ഒരു ₹2 നാണയം", "ഒരു ₹1 നാണയം", "ഒരു ₹10 നോട്ട്"], "5 ഉം 2 ഉം ചേർന്നാൽ 7."),
+ ("Why do we count money carefully?", ["To avoid mistakes", "To waste time", "To hide it"], 0, "Careful counting stops mistakes.",
+  "നമ്മൾ പണം ശ്രദ്ധയോടെ എണ്ണുന്നത് എന്തിനാണ്?", ["തെറ്റുകൾ ഒഴിവാക്കാൻ", "സമയം കളയാൻ", "ഒളിപ്പിക്കാൻ"], "ശ്രദ്ധിച്ച് എണ്ണിയാൽ തെറ്റുകൾ വരില്ല."),
+ ("A ₹50 note is worth how many ₹10 notes?", ["5", "10", "50"], 0, "10 times 5 is 50.",
+  "ഒരു ₹50 നോട്ടിന് എത്ര ₹10 നോട്ടുകളുടെ വിലയുണ്ട്?", ["5", "10", "50"], "10 ന്റെ 5 മടങ്ങ് 50."),
+],
+"s2": [
+ ("A school bag is a...", ["Need", "Want", "Toy"], 0, "We need it to carry our books.",
+  "ഒരു സ്കൂൾ ബാഗ് ഒരു...", ["ആവശ്യം", "ആഗ്രഹം", "കളിപ്പാട്ടം"], "പുസ്തകങ്ങൾ കൊണ്ടുപോകാൻ നമുക്കത് വേണം."),
+ ("Which of these is a want?", ["A chocolate bar", "Rice", "Drinking water"], 0, "We can live without chocolate.",
+  "ഇവയിൽ ഏതാണ് ഒരു ആഗ്രഹം?", ["ഒരു ചോക്ലേറ്റ്", "അരി", "കുടിവെള്ളം"], "ചോക്ലേറ്റ് ഇല്ലാതെയും നമുക്ക് ജീവിക്കാം."),
+ ("A raincoat in the monsoon is a...", ["Need", "Want", "Game"], 0, "It keeps us dry and healthy.",
+  "മഴക്കാലത്തെ ഒരു റെയിൻകോട്ട് ഒരു...", ["ആവശ്യം", "ആഗ്രഹം", "കളി"], "അത് നമ്മളെ നനയാതെയും ആരോഗ്യത്തോടെയും സൂക്ഷിക്കുന്നു."),
+ ("A fancy toy robot is a...", ["Want", "Need", "Medicine"], 0, "Toys are fun, but we do not need them to live.",
+  "ഭംഗിയുള്ള ഒരു കളിപ്പാട്ട റോബോട്ട് ഒരു...", ["ആഗ്രഹം", "ആവശ്യം", "മരുന്ന്"], "കളിപ്പാട്ടങ്ങൾ രസമാണ്, പക്ഷേ ജീവിക്കാൻ അവ വേണ്ട."),
+ ("Which is a need for a baby?", ["Milk", "A balloon", "A cartoon sticker"], 0, "Babies need milk to grow.",
+  "ഒരു കുഞ്ഞിന് ആവശ്യമുള്ളത് ഏതാണ്?", ["പാൽ", "ഒരു ബലൂൺ", "ഒരു കാർട്ടൂൺ സ്റ്റിക്കർ"], "വളരാൻ കുഞ്ഞുങ്ങൾക്ക് പാൽ വേണം."),
+ ("Your friend has a new gadget. Do you need it too?", ["No, it is a want", "Yes, always", "Only if it is red"], 0, "Wanting what a friend has is not the same as needing it.",
+  "നിങ്ങളുടെ കൂട്ടുകാരന് ഒരു പുതിയ ഉപകരണം ഉണ്ട്. നിങ്ങൾക്കും അത് വേണോ?", ["വേണ്ട, അത് ഒരു ആഗ്രഹമാണ്", "വേണം, എപ്പോഴും", "ചുവപ്പാണെങ്കിൽ മാത്രം"], "കൂട്ടുകാരന് ഉണ്ടെന്ന് കരുതി നമുക്ക് ആവശ്യമാകുന്നില്ല."),
+ ("Which is a need?", ["A safe place to sleep", "A toy castle", "A comic book"], 0, "Everyone needs a safe place to rest.",
+  "ഇവയിൽ ആവശ്യം ഏതാണ്?", ["ഉറങ്ങാൻ സുരക്ഷിതമായ ഒരിടം", "ഒരു കളിപ്പാട്ട കൊട്ടാരം", "ഒരു കോമിക് പുസ്തകം"], "എല്ലാവർക്കും വിശ്രമിക്കാൻ സുരക്ഷിതമായ ഒരിടം വേണം."),
+ ("You have ₹50. What do you buy first?", ["A notebook for school", "A sticker pack", "Neither"], 0, "Needs come before wants.",
+  "നിങ്ങളുടെ കൈയിൽ ₹50 ഉണ്ട്. ആദ്യം എന്ത് വാങ്ങും?", ["സ്കൂളിലേക്കുള്ള ഒരു നോട്ടുബുക്ക്", "ഒരു സ്റ്റിക്കർ പായ്ക്ക്", "രണ്ടുമല്ല"], "ആഗ്രഹങ്ങൾക്ക് മുമ്പ് ആവശ്യങ്ങൾ."),
+ ("New shoes when your old ones are torn are a...", ["Need", "Want", "Toy"], 0, "We need shoes to protect our feet.",
+  "പഴയ ചെരിപ്പ് കീറിയപ്പോൾ വാങ്ങുന്ന പുതിയ ചെരിപ്പ് ഒരു...", ["ആവശ്യം", "ആഗ്രഹം", "കളിപ്പാട്ടം"], "കാലുകൾ സംരക്ഷിക്കാൻ നമുക്ക് ചെരിപ്പ് വേണം."),
+ ("A party hat is a...", ["Want", "Need", "Medicine"], 0, "It is fun, not a must.",
+  "ഒരു പാർട്ടി തൊപ്പി ഒരു...", ["ആഗ്രഹം", "ആവശ്യം", "മരുന്ന്"], "അത് രസത്തിനാണ്, നിർബന്ധമല്ല."),
+ ("True or false: wants can sometimes wait.", ["True", "False", "Only on Sundays"], 0, "We can plan and wait for wants.",
+  "ശരിയോ തെറ്റോ: ആഗ്രഹങ്ങൾക്ക് ചിലപ്പോൾ കാത്തിരിക്കാം.", ["ശരി", "തെറ്റ്", "ഞായറാഴ്ച മാത്രം"], "ആഗ്രഹങ്ങൾക്ക് ആസൂത്രണം ചെയ്ത് കാത്തിരിക്കാം."),
+ ("Which pair has one need and one want?", ["Water and ice cream", "Rice and water", "Toy and game"], 0, "Water is a need. Ice cream is a want.",
+  "ഏത് ജോടിയിലാണ് ഒരു ആവശ്യവും ഒരു ആഗ്രഹവും ഉള്ളത്?", ["വെള്ളവും ഐസ്ക്രീമും", "അരിയും വെള്ളവും", "കളിപ്പാട്ടവും ഗെയിമും"], "വെള്ളം ഒരു ആവശ്യമാണ്. ഐസ്ക്രീം ഒരു ആഗ്രഹമാണ്."),
+ ("A doctor's visit when you are very sick is a...", ["Need", "Want", "Treat"], 0, "Getting well is a need.",
+  "വല്ലാതെ അസുഖം വരുമ്പോൾ ഡോക്ടറെ കാണുന്നത് ഒരു...", ["ആവശ്യം", "ആഗ്രഹം", "ട്രീറ്റ്"], "അസുഖം മാറുന്നത് ഒരു ആവശ്യമാണ്."),
+],
+"s3": [
+ ("Pinku saves ₹10 each week. How many weeks to save ₹40?", ["4", "10", "40"], 0, "10 times 4 is 40.",
+  "പിങ്കു ആഴ്ചയിൽ ₹10 സമ്പാദിക്കുന്നു. ₹40 ആകാൻ എത്ര ആഴ്ച വേണം?", ["4", "10", "40"], "10 ന്റെ 4 മടങ്ങ് 40."),
+ ("You have ₹15 saved and add ₹5. How much now?", ["₹20", "₹10", "₹155"], 0, "15 plus 5 is 20.",
+  "നിങ്ങൾ ₹15 സമ്പാദിച്ചിട്ടുണ്ട്, ₹5 കൂടി ചേർക്കുന്നു. ഇപ്പോൾ എത്ര?", ["₹20", "₹10", "₹155"], "15 ഉം 5 ഉം ചേർന്നാൽ 20."),
+ ("A goal is...", ["Something you want to reach", "A kind of coin", "A shop"], 0, "A goal is what you are saving for.",
+  "ലക്ഷ്യം എന്നാൽ...", ["എത്തിച്ചേരാൻ ആഗ്രഹിക്കുന്ന കാര്യം", "ഒരു തരം നാണയം", "ഒരു കട"], "നിങ്ങൾ എന്തിനുവേണ്ടിയാണോ സമ്പാദിക്കുന്നത്, അതാണ് ലക്ഷ്യം."),
+ ("Pinku wants a ₹20 book and saves ₹4 a day. How many days?", ["5", "4", "20"], 0, "4 times 5 is 20.",
+  "പിങ്കുവിന് ₹20 ന്റെ പുസ്തകം വേണം, ദിവസവും ₹4 സമ്പാദിക്കുന്നു. എത്ര ദിവസം വേണം?", ["5", "4", "20"], "4 ന്റെ 5 മടങ്ങ് 20."),
+ ("Saving ₹1 a day for 7 days gives...", ["₹7", "₹17", "₹1"], 0, "1 times 7 is 7.",
+  "ദിവസവും ₹1 വീതം 7 ദിവസം സമ്പാദിച്ചാൽ...", ["₹7", "₹17", "₹1"], "1 ന്റെ 7 മടങ്ങ് 7."),
+ ("What helps your piggy bank fill up?", ["Adding a little every day", "Opening it every hour", "Spending the coins"], 0, "Small, regular saving adds up.",
+  "നിങ്ങളുടെ കുടുക്ക നിറയാൻ എന്താണ് സഹായിക്കുന്നത്?", ["ദിവസവും കുറച്ച് ചേർക്കുക", "ഓരോ മണിക്കൂറും തുറന്നുനോക്കുക", "നാണയങ്ങൾ ചെലവാക്കുക"], "ചെറുതും പതിവായതുമായ സമ്പാദ്യം കൂടിച്ചേരും."),
+ ("Your piggy bank has ₹30 and you take out ₹10 for a treat. How much is left?", ["₹20", "₹40", "₹10"], 0, "30 minus 10 is 20.",
+  "നിങ്ങളുടെ കുടുക്കയിൽ ₹30 ഉണ്ട്, ഒരു ട്രീറ്റിന് ₹10 എടുക്കുന്നു. എത്ര ബാക്കി?", ["₹20", "₹40", "₹10"], "30 ൽ നിന്ന് 10 കുറച്ചാൽ 20."),
+ ("Why break a big goal into small steps?", ["It feels easier to reach", "It costs more", "So you forget it"], 0, "Small steps feel doable.",
+  "വലിയ ലക്ഷ്യത്തെ ചെറിയ ഘട്ടങ്ങളാക്കുന്നത് എന്തിനാണ്?", ["എത്താൻ എളുപ്പമായി തോന്നും", "അതിന് കൂടുതൽ ചെലവാകും", "മറന്നുപോകാൻ"], "ചെറിയ ഘട്ടങ്ങൾ ചെയ്യാവുന്നതായി തോന്നും."),
+ ("You save ₹5 every day. How much after 2 days?", ["₹10", "₹7", "₹52"], 0, "5 times 2 is 10.",
+  "നിങ്ങൾ ദിവസവും ₹5 സമ്പാദിക്കുന്നു. 2 ദിവസം കഴിഞ്ഞ് എത്ര?", ["₹10", "₹7", "₹52"], "5 ന്റെ 2 മടങ്ങ് 10."),
+ ("Where should a piggy bank stay?", ["In a safe place at home", "On the street", "At a stranger's house"], 0, "Keep it where only your family can reach it.",
+  "ഒരു കുടുക്ക എവിടെയാണ് ഇരിക്കേണ്ടത്?", ["വീട്ടിലെ സുരക്ഷിതമായ സ്ഥലത്ത്", "റോഡിൽ", "ഒരു അപരിചിതന്റെ വീട്ടിൽ"], "നിങ്ങളുടെ കുടുംബത്തിന് മാത്രം എത്താവുന്ന സ്ഥലത്ത് സൂക്ഷിക്കുക."),
+ ("Meera spends all her money. Pinku saves some. Who can buy a ₹20 gift later?", ["Pinku", "Meera", "Nobody"], 0, "Saved money is there when you need it.",
+  "മീര എല്ലാ പണവും ചെലവാക്കുന്നു. പിങ്കു കുറച്ച് സമ്പാദിക്കുന്നു. പിന്നീട് ₹20 ന്റെ സമ്മാനം ആർക്ക് വാങ്ങാൻ കഴിയും?", ["പിങ്കുവിന്", "മീരയ്ക്ക്", "ആർക്കുമില്ല"], "സമ്പാദിച്ച പണം ആവശ്യമുള്ളപ്പോൾ കൈയിലുണ്ടാകും."),
+ ("What do you need most to save for a long time?", ["Patience", "Speed", "Luck"], 0, "Saving takes time and patience.",
+  "ദീർഘകാലം സമ്പാദിക്കാൻ ഏറ്റവും വേണ്ടത് എന്താണ്?", ["ക്ഷമ", "വേഗം", "ഭാഗ്യം"], "സമ്പാദിക്കാൻ സമയവും ക്ഷമയും വേണം."),
+ ("A goal costs ₹100 and you have ₹60. How much more do you need?", ["₹40", "₹60", "₹160"], 0, "100 minus 60 is 40.",
+  "ഒരു ലക്ഷ്യത്തിന് ₹100 വേണം, നിങ്ങളുടെ കൈയിൽ ₹60 ഉണ്ട്. ഇനി എത്ര വേണം?", ["₹40", "₹60", "₹160"], "100 ൽ നിന്ന് 60 കുറച്ചാൽ 40."),
+],
+"s4": [
+ ("A baker sells bread. This is...", ["Work", "A gift", "A game"], 0, "Selling what you make is work.",
+  "ഒരു ബേക്കർ റൊട്ടി വിൽക്കുന്നു. ഇത്...", ["ജോലി", "ഒരു സമ്മാനം", "ഒരു കളി"], "ഉണ്ടാക്കിയത് വിൽക്കുന്നത് ജോലിയാണ്."),
+ ("Who earns money by growing rice?", ["A farmer", "A cloud", "A toy"], 0, "Farmers sell what they grow.",
+  "നെല്ല് കൃഷി ചെയ്ത് പണം സമ്പാദിക്കുന്നത് ആരാണ്?", ["ഒരു കർഷകൻ", "ഒരു മേഘം", "ഒരു കളിപ്പാട്ടം"], "കർഷകർ വിളയിച്ചത് വിൽക്കുന്നു."),
+ ("A fisherman sells fish. He...", ["Earns money from his work", "Gets a gift", "Loses money"], 0, "Selling the catch is how he earns.",
+  "ഒരു മത്സ്യത്തൊഴിലാളി മീൻ വിൽക്കുന്നു. അദ്ദേഹം...", ["ജോലിയിലൂടെ പണം സമ്പാദിക്കുന്നു", "ഒരു സമ്മാനം നേടുന്നു", "പണം നഷ്ടപ്പെടുത്തുന്നു"], "പിടിച്ച മീൻ വിൽക്കുന്നത് അദ്ദേഹത്തിന്റെ വരുമാനമാണ്."),
+ ("Money from grandparents on your birthday is...", ["A gift", "A salary", "A fine"], 0, "Gifts come from love, not from work.",
+  "പിറന്നാളിന് മുത്തശ്ശീമുത്തശ്ശന്മാർ തരുന്ന പണം...", ["ഒരു സമ്മാനം", "ഒരു ശമ്പളം", "ഒരു പിഴ"], "സമ്മാനങ്ങൾ സ്നേഹത്തോടെ തരുന്നതാണ്, ജോലിക്കല്ല."),
+ ("A tailor stitches clothes. How does the tailor earn?", ["Customers pay for the clothes", "Trees give money", "Birds bring money"], 0, "People pay for useful work.",
+  "ഒരു തയ്യൽക്കാരൻ വസ്ത്രങ്ങൾ തുന്നുന്നു. അദ്ദേഹം എങ്ങനെ സമ്പാദിക്കുന്നു?", ["ഉപഭോക്താക്കൾ വസ്ത്രങ്ങൾക്ക് പണം കൊടുക്കും", "മരങ്ങൾ പണം തരും", "പക്ഷികൾ പണം കൊണ്ടുവരും"], "ഉപകാരമുള്ള ജോലിക്ക് ആളുകൾ പണം കൊടുക്കും."),
+ ("Which one is work?", ["A driver takes passengers", "A friend gives you a toy", "You find a feather"], 0, "Driving passengers is a job.",
+  "ഇവയിൽ ജോലി ഏതാണ്?", ["ഒരു ഡ്രൈവർ യാത്രക്കാരെ കൊണ്ടുപോകുന്നു", "ഒരു കൂട്ടുകാരൻ കളിപ്പാട്ടം തരുന്നു", "നിങ്ങൾക്ക് ഒരു തൂവൽ കിട്ടുന്നു"], "യാത്രക്കാരെ കൊണ്ടുപോകുന്നത് ഒരു ജോലിയാണ്."),
+ ("You earn ₹10 from each of 3 customers. How much in all?", ["₹30", "₹13", "₹103"], 0, "10 times 3 is 30.",
+  "3 ഉപഭോക്താക്കളിൽ നിന്ന് ഓരോരുത്തരിൽ നിന്നും ₹10 കിട്ടുന്നു. ആകെ എത്ര?", ["₹30", "₹13", "₹103"], "10 ന്റെ 3 മടങ്ങ് 30."),
+ ("A nurse earns by...", ["Caring for sick people", "Selling toys", "Driving a bus"], 0, "Nurses help patients get well.",
+  "ഒരു നഴ്സ് സമ്പാദിക്കുന്നത്...", ["രോഗികളെ പരിചരിച്ച്", "കളിപ്പാട്ടം വിറ്റ്", "ബസ് ഓടിച്ച്"], "രോഗികൾക്ക് സുഖം പ്രാപിക്കാൻ നഴ്സുമാർ സഹായിക്കുന്നു."),
+ ("A gift is...", ["Given freely", "Always pay for work", "Always given back"], 0, "A gift is not payment.",
+  "ഒരു സമ്മാനം എന്നാൽ...", ["സൗജന്യമായി തരുന്നത്", "ജോലിക്കുള്ള കൂലി എപ്പോഴും", "എപ്പോഴും തിരിച്ചു കൊടുക്കേണ്ടത്"], "സമ്മാനം കൂലിയല്ല."),
+ ("Why is it good to earn money honestly?", ["It is fair and makes us proud", "It is faster to take it", "Nobody notices"], 0, "Honest work is fair to everyone.",
+  "സത്യസന്ധമായി പണം സമ്പാദിക്കുന്നത് നല്ലതാകുന്നത് എന്തുകൊണ്ട്?", ["അത് ന്യായമാണ്, നമുക്ക് അഭിമാനം തോന്നും", "എടുക്കുന്നതാണ് എളുപ്പം", "ആരും അറിയില്ല"], "സത്യസന്ധമായ ജോലി എല്ലാവരോടും ന്യായമാണ്."),
+ ("A child waters the neighbours' plants and they say thanks. Is it always paid?", ["No, helping can be kindness", "Yes, always", "Only on Fridays"], 0, "Helping can come from kindness, not only pay.",
+  "ഒരു കുട്ടി അയൽക്കാരുടെ ചെടികൾക്ക് വെള്ളമൊഴിക്കുന്നു, അവർ നന്ദി പറയുന്നു. ഇതിന് എപ്പോഴും പണം കിട്ടുമോ?", ["ഇല്ല, സഹായിക്കുന്നത് ദയകൊണ്ടാകാം", "അതെ, എപ്പോഴും", "വെള്ളിയാഴ്ച മാത്രം"], "സഹായം ദയയിൽ നിന്നും വരാം, കൂലിക്ക് വേണ്ടി മാത്രമല്ല."),
+ ("Which one is NOT earning?", ["Taking money from someone's bag", "Selling juice", "Teaching a class"], 0, "Taking what is not yours is wrong.",
+  "ഇവയിൽ സമ്പാദിക്കൽ അല്ലാത്തത് ഏതാണ്?", ["ആരുടെയെങ്കിലും ബാഗിൽ നിന്ന് പണം എടുക്കുന്നത്", "ജ്യൂസ് വിൽക്കുന്നത്", "ക്ലാസ്സെടുക്കുന്നത്"], "നമ്മുടേതല്ലാത്തത് എടുക്കുന്നത് തെറ്റാണ്."),
+ ("A potter makes pots and sells them. This is...", ["Earning from a craft", "A gift", "A prize"], 0, "Making and selling is honest work.",
+  "ഒരു കുശവൻ കലങ്ങൾ ഉണ്ടാക്കി വിൽക്കുന്നു. ഇത്...", ["കരകൗശലത്തിലൂടെയുള്ള വരുമാനം", "ഒരു സമ്മാനം", "ഒരു പ്രൈസ്"], "ഉണ്ടാക്കി വിൽക്കുന്നത് സത്യസന്ധമായ ജോലിയാണ്."),
+],
+"s5": [
+ ("Sharing a toy with your sibling is...", ["Kind", "Unkind", "A waste"], 0, "Sharing shows care.",
+  "കൂടപ്പിറപ്പുമായി കളിപ്പാട്ടം പങ്കിടുന്നത്...", ["നല്ല കാര്യമാണ്", "നല്ലതല്ല", "പാഴ്‌വേലയാണ്"], "പങ്കിടുന്നത് കരുതൽ കാണിക്കുന്നു."),
+ ("A new student has no pencil. You can...", ["Lend yours", "Ignore them", "Laugh at them"], 0, "A small help makes a friend.",
+  "പുതിയ ഒരു കുട്ടിക്ക് പെൻസിൽ ഇല്ല. നിങ്ങൾക്ക്...", ["നിങ്ങളുടേത് കടം കൊടുക്കാം", "അവഗണിക്കാം", "കളിയാക്കാം"], "ചെറിയ സഹായം ഒരു കൂട്ടുകാരനെ തരും."),
+ ("Which makes you a good friend?", ["Sharing and caring", "Teasing", "Grabbing"], 0, "Good friends share and care.",
+  "ഒരു നല്ല കൂട്ടുകാരനാക്കുന്നത് എന്താണ്?", ["പങ്കിടലും കരുതലും", "കളിയാക്കൽ", "തട്ടിപ്പറിക്കൽ"], "നല്ല കൂട്ടുകാർ പങ്കിടുകയും കരുതുകയും ചെയ്യും."),
+ ("Money in a charity box is used to...", ["Help people in need", "Pay for the box", "Buy sweets for one person"], 0, "Charity is for helping others.",
+  "ദാനപ്പെട്ടിയിലെ പണം ഉപയോഗിക്കുന്നത്...", ["ആവശ്യക്കാരെ സഹായിക്കാൻ", "പെട്ടിക്ക് പണം കൊടുക്കാൻ", "ഒരാൾക്ക് മധുരം വാങ്ങാൻ"], "ദാനം മറ്റുള്ളവരെ സഹായിക്കാനുള്ളതാണ്."),
+ ("Which is the best thing to share?", ["Kindness", "Anger", "Lies"], 0, "Kindness grows when we share it.",
+  "പങ്കിടാൻ ഏറ്റവും നല്ലത് ഏതാണ്?", ["ദയ", "ദേഷ്യം", "നുണകൾ"], "പങ്കിടുമ്പോൾ ദയ വളരും."),
+ ("You have 4 sweets and share equally with a friend. How many does each get?", ["2", "4", "1"], 0, "4 shared between 2 is 2 each.",
+  "നിങ്ങൾക്ക് 4 മധുരം ഉണ്ട്, കൂട്ടുകാരനുമായി തുല്യമായി പങ്കിടുന്നു. ഓരോരുത്തർക്കും എത്ര കിട്ടും?", ["2", "4", "1"], "4 നെ രണ്ടുപേർ പങ്കിട്ടാൽ ഓരോരുത്തർക്കും 2."),
+ ("At festivals like Onam, Eid and Christmas, sharing means...", ["Giving some food or treats to others", "Eating alone", "Hiding the sweets"], 0, "Festivals are happier when we share.",
+  "ഓണം, പെരുന്നാൾ, ക്രിസ്മസ് പോലുള്ള ഉത്സവങ്ങളിൽ പങ്കിടൽ എന്നാൽ...", ["കുറച്ച് ഭക്ഷണമോ പലഹാരങ്ങളോ മറ്റുള്ളവർക്ക് കൊടുക്കുക", "ഒറ്റയ്ക്ക് കഴിക്കുക", "മധുരം ഒളിപ്പിക്കുക"], "പങ്കിടുമ്പോൾ ഉത്സവങ്ങൾ കൂടുതൽ സന്തോഷകരമാകും."),
+ ("A neighbour is ill. What can you do?", ["Ask a grown-up how to help", "Make a lot of noise", "Stay away and laugh"], 0, "A grown-up can show a safe way to help.",
+  "ഒരു അയൽക്കാരന് അസുഖമാണ്. നിങ്ങൾക്ക് എന്ത് ചെയ്യാം?", ["എങ്ങനെ സഹായിക്കാമെന്ന് മുതിർന്ന ഒരാളോട് ചോദിക്കാം", "ഒരുപാട് ബഹളമുണ്ടാക്കാം", "അകന്നുനിന്ന് ചിരിക്കാം"], "സുരക്ഷിതമായി സഹായിക്കാനുള്ള വഴി മുതിർന്ന ആൾ കാണിച്ചുതരും."),
+ ("Is it okay to share only when you have a lot?", ["No, even a little can help", "Yes, only then", "Never share"], 0, "A small share still helps.",
+  "ഒരുപാട് ഉള്ളപ്പോൾ മാത്രം പങ്കിട്ടാൽ മതിയോ?", ["വേണ്ട, കുറച്ചായാലും സഹായിക്കും", "അതെ, അപ്പോൾ മാത്രം", "ഒരിക്കലും പങ്കിടരുത്"], "ചെറിയൊരു പങ്കും സഹായിക്കും."),
+ ("Giving a gift to a friend with a happy heart is...", ["Kind", "Unkind", "Silly"], 0, "Gifts given happily show love.",
+  "സന്തോഷത്തോടെ ഒരു കൂട്ടുകാരന് സമ്മാനം കൊടുക്കുന്നത്...", ["നല്ല കാര്യമാണ്", "നല്ലതല്ല", "മണ്ടത്തരമാണ്"], "സന്തോഷത്തോടെ കൊടുക്കുന്ന സമ്മാനം സ്നേഹം കാണിക്കുന്നു."),
+ ("Which one is unkind?", ["Not letting anyone play with you", "Taking turns", "Saying thank you"], 0, "Including others is kind.",
+  "ഇവയിൽ നല്ലതല്ലാത്തത് ഏതാണ്?", ["ആരെയും കൂടെ കളിക്കാൻ അനുവദിക്കാത്തത്", "ഊഴം വെച്ച് കളിക്കുന്നത്", "നന്ദി പറയുന്നത്"], "മറ്റുള്ളവരെ ഉൾപ്പെടുത്തുന്നത് നല്ല കാര്യമാണ്."),
+ ("Story books you have finished can be...", ["Given to a child who has none", "Torn up", "Left in the rain"], 0, "Passing on books helps others learn.",
+  "വായിച്ചു കഴിഞ്ഞ കഥാപുസ്തകങ്ങൾ...", ["പുസ്തകമില്ലാത്ത ഒരു കുട്ടിക്ക് കൊടുക്കാം", "കീറിക്കളയാം", "മഴയത്ത് ഇടാം"], "പുസ്തകങ്ങൾ കൈമാറുന്നത് മറ്റുള്ളവരെ പഠിക്കാൻ സഹായിക്കും."),
+ ("How do you feel when you help someone?", ["Happy and proud", "Always tired", "Angry"], 0, "Helping feels good.",
+  "ഒരാളെ സഹായിക്കുമ്പോൾ നിങ്ങൾക്ക് എന്ത് തോന്നും?", ["സന്തോഷവും അഭിമാനവും", "എപ്പോഴും ക്ഷീണം", "ദേഷ്യം"], "സഹായിക്കുമ്പോൾ നല്ല തോന്നലുണ്ടാകും."),
+],
+"s6": [
+ ("A candy costs ₹3 and you pay ₹5. What change do you get?", ["₹2", "₹3", "₹8"], 0, "5 minus 3 is 2.",
+  "ഒരു മിഠായിക്ക് ₹3 ആണ്, നിങ്ങൾ ₹5 കൊടുക്കുന്നു. ബാക്കി എത്ര?", ["₹2", "₹3", "₹8"], "5 ൽ നിന്ന് 3 കുറച്ചാൽ 2."),
+ ("An eraser costs ₹4 and you pay ₹10. What change?", ["₹6", "₹4", "₹14"], 0, "10 minus 4 is 6.",
+  "ഒരു റബ്ബറിന് ₹4 ആണ്, നിങ്ങൾ ₹10 കൊടുക്കുന്നു. ബാക്കി എത്ര?", ["₹6", "₹4", "₹14"], "10 ൽ നിന്ന് 4 കുറച്ചാൽ 6."),
+ ("A ball costs ₹15 and you pay ₹20. What change?", ["₹5", "₹15", "₹35"], 0, "20 minus 15 is 5.",
+  "ഒരു പന്തിന് ₹15 ആണ്, നിങ്ങൾ ₹20 കൊടുക്കുന്നു. ബാക്കി എത്ര?", ["₹5", "₹15", "₹35"], "20 ൽ നിന്ന് 15 കുറച്ചാൽ 5."),
+ ("Two pencils cost ₹3 each. How much for both?", ["₹6", "₹5", "₹33"], 0, "3 plus 3 is 6.",
+  "രണ്ട് പെൻസിലുകൾക്ക് ഓരോന്നിനും ₹3 ആണ്. രണ്ടിനും കൂടി എത്ര?", ["₹6", "₹5", "₹33"], "3 ഉം 3 ഉം ചേർന്നാൽ 6."),
+ ("A toy costs ₹45 and you pay ₹50. What change?", ["₹5", "₹45", "₹95"], 0, "50 minus 45 is 5.",
+  "ഒരു കളിപ്പാട്ടത്തിന് ₹45 ആണ്, നിങ്ങൾ ₹50 കൊടുക്കുന്നു. ബാക്കി എത്ര?", ["₹5", "₹45", "₹95"], "50 ൽ നിന്ന് 45 കുറച്ചാൽ 5."),
+ ("Which price is the highest?", ["₹30", "₹13", "₹3"], 0, "30 is bigger than 13 and 3.",
+  "ഏത് വിലയാണ് ഏറ്റവും കൂടുതൽ?", ["₹30", "₹13", "₹3"], "30 എന്നത് 13 നേക്കാളും 3 നേക്കാളും വലുതാണ്."),
+ ("The shopkeeper gives too little change. What do you do?", ["Politely tell them", "Shout", "Leave quietly"], 0, "Speak politely and ask them to check.",
+  "കടക്കാരൻ ബാക്കി തുക കുറച്ചാണ് തന്നത്. നിങ്ങൾ എന്ത് ചെയ്യും?", ["മര്യാദയോടെ പറയും", "അലറും", "മിണ്ടാതെ പോകും"], "മര്യാദയോടെ പറഞ്ഞ് ഒന്നുകൂടി നോക്കാൻ ആവശ്യപ്പെടുക."),
+ ("A ₹10 snack and a ₹5 drink cost...", ["₹15", "₹5", "₹105"], 0, "10 plus 5 is 15.",
+  "₹10 ന്റെ ഒരു പലഹാരത്തിനും ₹5 ന്റെ ഒരു പാനീയത്തിനും കൂടി...", ["₹15", "₹5", "₹105"], "10 ഉം 5 ഉം ചേർന്നാൽ 15."),
+ ("You pay ₹100 for an ₹80 item. What change?", ["₹20", "₹80", "₹180"], 0, "100 minus 80 is 20.",
+  "₹80 ന്റെ സാധനത്തിന് നിങ്ങൾ ₹100 കൊടുക്കുന്നു. ബാക്കി എത്ര?", ["₹20", "₹80", "₹180"], "100 ൽ നിന്ന് 80 കുറച്ചാൽ 20."),
+ ("A bigger number on the price tag means...", ["More money to pay", "Less money to pay", "Free"], 0, "A bigger price means you pay more.",
+  "വിലച്ചീട്ടിൽ വലിയ സംഖ്യ ആണെങ്കിൽ...", ["കൂടുതൽ പണം കൊടുക്കണം", "കുറച്ച് പണം കൊടുത്താൽ മതി", "സൗജന്യം"], "വില കൂടിയാൽ നമ്മൾ കൂടുതൽ കൊടുക്കണം."),
+ ("Which one is the cheapest?", ["₹6", "₹16", "₹60"], 0, "6 is the smallest number.",
+  "ഏതാണ് ഏറ്റവും വില കുറഞ്ഞത്?", ["₹6", "₹16", "₹60"], "6 ആണ് ഏറ്റവും ചെറിയ സംഖ്യ."),
+ ("Before paying, we should check...", ["The price", "The weather", "The time"], 0, "Always know how much to pay.",
+  "പണം കൊടുക്കും മുമ്പ് നമ്മൾ നോക്കേണ്ടത്...", ["വില", "കാലാവസ്ഥ", "സമയം"], "എത്ര കൊടുക്കണമെന്ന് എപ്പോഴും അറിയണം."),
+ ("You have ₹30 and buy a ₹12 book. How much is left?", ["₹18", "₹42", "₹12"], 0, "30 minus 12 is 18.",
+  "നിങ്ങളുടെ കൈയിൽ ₹30 ഉണ്ട്, ₹12 ന്റെ പുസ്തകം വാങ്ങുന്നു. എത്ര ബാക്കി?", ["₹18", "₹42", "₹12"], "30 ൽ നിന്ന് 12 കുറച്ചാൽ 18."),
+],
+"s7": [
+ ("A stranger offers sweets and asks you to follow. You...", ["Say no and tell a grown-up", "Follow them", "Take the sweets"], 0, "Never go with strangers.",
+  "ഒരു അപരിചിതൻ മധുരം തന്ന് കൂടെ വരാൻ പറയുന്നു. നിങ്ങൾ...", ["വേണ്ടെന്ന് പറഞ്ഞ് മുതിർന്ന ഒരാളോട് പറയും", "കൂടെ പോകും", "മധുരം വാങ്ങും"], "അപരിചിതരുടെ കൂടെ ഒരിക്കലും പോകരുത്."),
+ ("Who is allowed to know your secret PIN?", ["Only you, and a trusted parent if needed", "Anyone who asks", "A shop assistant"], 0, "A PIN is a secret.",
+  "രഹസ്യ പിൻ അറിയാൻ ആർക്കാണ് അനുവാദം?", ["നിങ്ങൾക്കും ആവശ്യമെങ്കിൽ വിശ്വസ്തനായ രക്ഷിതാവിനും മാത്രം", "ചോദിക്കുന്ന ആർക്കും", "കടയിലെ ജീവനക്കാരന്"], "പിൻ ഒരു രഹസ്യമാണ്."),
+ ("You find a wallet on the road. You...", ["Give it to a grown-up", "Keep the money", "Throw it away"], 0, "A grown-up can find the owner.",
+  "റോഡിൽ നിന്ന് ഒരു പഴ്സ് കിട്ടി. നിങ്ങൾ...", ["മുതിർന്ന ഒരാളെ ഏൽപ്പിക്കും", "പണം എടുത്ത് വെക്കും", "വലിച്ചെറിയും"], "ഉടമയെ കണ്ടെത്താൻ മുതിർന്ന ആൾക്ക് കഴിയും."),
+ ("A message says: send your OTP to win a prize. You...", ["Do not send it and tell a grown-up", "Send it", "Share it with friends"], 0, "Never share an OTP.",
+  "“സമ്മാനം കിട്ടാൻ നിങ്ങളുടെ ഒടിപി അയയ്ക്കൂ” എന്ന് ഒരു സന്ദേശം. നിങ്ങൾ...", ["അയയ്ക്കാതെ മുതിർന്ന ഒരാളോട് പറയും", "അയയ്ക്കും", "കൂട്ടുകാരുമായി പങ്കിടും"], "ഒടിപി ഒരിക്കലും പങ്കിടരുത്."),
+ ("In a crowd, where should you keep your purse?", ["Close and in front of you", "Open in your hand", "On the ground"], 0, "Keep it close so it cannot be taken.",
+  "ആൾക്കൂട്ടത്തിൽ നിങ്ങളുടെ പഴ്സ് എവിടെ വെക്കണം?", ["അടുത്ത്, മുന്നിൽ", "തുറന്ന് കൈയിൽ", "നിലത്ത്"], "ആരും എടുക്കാതിരിക്കാൻ അടുത്ത് സൂക്ഷിക്കുക."),
+ ("Telling someone your password is...", ["Unsafe", "Safe", "Fun"], 0, "Passwords are secrets.",
+  "നിങ്ങളുടെ പാസ്‌വേഡ് മറ്റൊരാളോട് പറയുന്നത്...", ["സുരക്ഷിതമല്ല", "സുരക്ഷിതമാണ്", "രസമാണ്"], "പാസ്‌വേഡുകൾ രഹസ്യങ്ങളാണ്."),
+ ("Someone asks to see your savings. You...", ["Say they are private", "Show them", "Give them some"], 0, "Savings are private.",
+  "ഒരാൾ നിങ്ങളുടെ സമ്പാദ്യം കാണിക്കാൻ ആവശ്യപ്പെടുന്നു. നിങ്ങൾ...", ["അത് സ്വകാര്യമാണെന്ന് പറയും", "കാണിക്കും", "കുറച്ച് കൊടുക്കും"], "സമ്പാദ്യം സ്വകാര്യമാണ്."),
+ ("After buying something, where do you put the change?", ["Safely in your pocket or bag", "On the counter", "On the road"], 0, "Put it away safely right away.",
+  "എന്തെങ്കിലും വാങ്ങിയ ശേഷം ബാക്കി തുക എവിടെ വെക്കും?", ["പോക്കറ്റിലോ ബാഗിലോ സുരക്ഷിതമായി", "കൗണ്ടറിൽ", "റോഡിൽ"], "ഉടനെ സുരക്ഷിതമായി മാറ്റി വെക്കുക."),
+ ("Which is a good place for coins at home?", ["A box or piggy bank", "Outside in the rain", "Down the drain"], 0, "A box keeps them safe and dry.",
+  "വീട്ടിൽ നാണയങ്ങൾ വെക്കാൻ നല്ല സ്ഥലം ഏതാണ്?", ["ഒരു പെട്ടിയോ കുടുക്കയോ", "പുറത്ത് മഴയത്ത്", "ഓടയിൽ"], "പെട്ടി അവയെ സുരക്ഷിതവും ഉണങ്ങിയതുമായി സൂക്ഷിക്കും."),
+ ("A game asks for your parent's card number. You...", ["Ask a parent and do not type it", "Type it", "Share it with friends"], 0, "Card numbers are for grown-ups.",
+  "ഒരു ഗെയിം മാതാപിതാക്കളുടെ കാർഡ് നമ്പർ ചോദിക്കുന്നു. നിങ്ങൾ...", ["രക്ഷിതാവിനോട് ചോദിക്കും, ടൈപ്പ് ചെയ്യില്ല", "ടൈപ്പ് ചെയ്യും", "കൂട്ടുകാരുമായി പങ്കിടും"], "കാർഡ് നമ്പറുകൾ മുതിർന്നവർക്കുള്ളതാണ്."),
+ ("Who can help if you lose money?", ["A trusted grown-up", "A stranger", "Nobody"], 0, "Tell a grown-up you trust.",
+  "പണം നഷ്ടപ്പെട്ടാൽ ആർക്ക് സഹായിക്കാൻ കഴിയും?", ["വിശ്വസ്തനായ ഒരു മുതിർന്ന ആൾ", "ഒരു അപരിചിതൻ", "ആർക്കുമില്ല"], "നിങ്ങൾ വിശ്വസിക്കുന്ന ഒരു മുതിർന്ന ആളോട് പറയുക."),
+ ("Locking a cupboard that holds savings keeps them...", ["Safer", "Lost", "Wet"], 0, "A lock helps protect savings.",
+  "സമ്പാദ്യമുള്ള അലമാര പൂട്ടിയാൽ അത്...", ["കൂടുതൽ സുരക്ഷിതമാകും", "നഷ്ടമാകും", "നനയും"], "പൂട്ട് സമ്പാദ്യം സംരക്ഷിക്കാൻ സഹായിക്കും."),
+ ("Being honest about a money mistake is...", ["Good", "Bad", "Silly"], 0, "Honesty helps fix mistakes.",
+  "പണത്തിലെ ഒരു തെറ്റിനെക്കുറിച്ച് സത്യം പറയുന്നത്...", ["നല്ല കാര്യമാണ്", "മോശം കാര്യമാണ്", "മണ്ടത്തരമാണ്"], "സത്യസന്ധത തെറ്റുകൾ തിരുത്താൻ സഹായിക്കും."),
+],
+}
+'''
+
+_SOURCES['more_data'] = r'''"""Collects the extra questions (English and Malayalam side by side) from the more_data_* files."""
+import importlib
+
+DATA = {}
+for _name in ("more_data_seed", "more_data_explore", "more_data_pioneer"):
+    try:
+        DATA.update(importlib.import_module(_name).DATA)
+    except ImportError:
+        pass
+'''
+
 _SOURCES['content'] = r'''"""EasyFin content (powered by NYZTrade): 3 age bands, 22 lessons, 264 quiz questions.
 
 Each lesson has: a 3 part story, one game (activity) and a bank of 12 quiz
@@ -582,17 +796,26 @@ def total_questions():
     return sum(len(l["bank"]) for l in LESSONS)
 
 
+# ----------------------------------------------------------------- Extra questions
+# more_data holds extra questions (English and Malayalam side by side). Only the English part is used here.
+try:
+    from more_data import DATA as _MORE
+except ImportError:
+    _MORE = {}
+for _l in LESSONS:
+    _l["bank"] = list(_l["bank"]) + [(_t[0], _t[1], _t[2], _t[3]) for _t in _MORE.get(_l["id"], [])]
+
 # ----------------------------------------------------------------- Self checks
 assert len(LESSONS) == 22
 for _l in LESSONS:
     assert len(_l["story"]) == 3, _l["id"]
-    assert len(_l["bank"]) == 12, (_l["id"], len(_l["bank"]))
+    assert len(_l["bank"]) >= 12, (_l["id"], len(_l["bank"]))
     for _q in _l["bank"]:
         assert len(_q) == 4 and 0 <= _q[2] < len(_q[1]) and len(_q[1]) >= 3, (_l["id"], _q[0])
     if _l["act"]["type"] == "sort":
         for _i in _l["act"]["items"]:
             assert 0 <= _i[2] < len(_l["act"]["labels"]), (_l["id"], _i)
-assert total_questions() == 264
+assert total_questions() >= 264
 '''
 
 _SOURCES['storage'] = r'''"""Tiny JSON store. One file, one entry per nickname.
@@ -825,6 +1048,7 @@ UI = {
     "This browser cannot read aloud.": "ഈ ബ്രൗസറിന് വായിച്ചു കേൾപ്പിക്കാൻ കഴിയില്ല.",
     "No Malayalam voice on this device. A parent can add a natural voice in Parent corner.": "ഈ ഉപകരണത്തിൽ മലയാളം ശബ്ദം ഇല്ല. രക്ഷിതാവിന് രക്ഷിതാക്കളുടെ കോർണറിൽ സ്വാഭാവിക ശബ്ദം ചേർക്കാം.",
     "Malayalam voice: using the browser voice. Add a Sarvam key in the app secrets for a natural voice.": "മലയാളം ശബ്ദം: ബ്രൗസറിന്റെ ശബ്ദമാണ് ഉപയോഗിക്കുന്നത്. സ്വാഭാവിക ശബ്ദത്തിന് ആപ്പ് സീക്രട്ടുകളിൽ സർവം കീ ചേർക്കുക.",
+    "Malayalam voice: saved audio clips are installed.": "മലയാളം ശബ്ദം: സൂക്ഷിച്ച ഓഡിയോ ക്ലിപ്പുകൾ ഉപയോഗിക്കുന്നു.",
     "Malayalam voice: Sarvam is connected.": "മലയാളം ശബ്ദം: സർവം ബന്ധിപ്പിച്ചിരിക്കുന്നു.",
     "Last problem: {err}": "അവസാനത്തെ പ്രശ്നം: {err}",
 
@@ -1604,6 +1828,12 @@ _BANKS = {}
 _BANKS.update(ml_bank_seed.BANK)
 _BANKS.update(ml_bank_explore.BANK)
 _BANKS.update(ml_bank_pioneer.BANK)
+try:
+    from more_data import DATA as _MORE
+except ImportError:
+    _MORE = {}
+for _lid, _items in _MORE.items():
+    _BANKS[_lid] = list(_BANKS[_lid]) + [(t[4], t[5], t[6]) for t in _items]
 
 
 def _merge(l, o, bank):
@@ -1669,7 +1899,7 @@ def validate():
     """Raise if the Malayalam text does not line up with the English content."""
     for l in C.LESSONS:
         ml = _ML[l["id"]]
-        assert len(ml["bank"]) == len(l["bank"]) == 12, l["id"]
+        assert len(ml["bank"]) == len(l["bank"]) >= 12, l["id"]
         for en, m in zip(l["bank"], ml["bank"]):
             assert len(en[1]) == len(m[1]), (l["id"], en[0])
             assert m[0].strip() and all(o.strip() for o in m[1]) and m[3].strip(), (l["id"], en[0])
@@ -1917,6 +2147,19 @@ def _secret(name, default=""):
     return str(value) if value else os.environ.get(name, default)
 
 
+AUDIO_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "audio", "ml")
+
+
+def clip_name(text):
+    """File name of a pre-made clip. make_audio.py uses the same function."""
+    return hashlib.md5(text.encode("utf-8")).hexdigest()[:16] + ".mp3"
+
+
+def premade(text):
+    path = os.path.join(AUDIO_DIR, clip_name(text))
+    return path if os.path.isfile(path) else None
+
+
 def sarvam_ready():
     return bool(_secret("SARVAM_API_KEY"))
 
@@ -1945,6 +2188,8 @@ def status():
         err = st.session_state.get("voice_err")
         base = T("Malayalam voice: Sarvam is connected.")
         return base + (" " + T("Last problem: {err}", err=err) if err else "")
+    if os.path.isdir(AUDIO_DIR) and os.listdir(AUDIO_DIR):
+        return T("Malayalam voice: saved audio clips are installed.")
     return T("Malayalam voice: using the browser voice. Add a Sarvam key in the app secrets for a natural voice.")
 
 
@@ -1995,12 +2240,18 @@ def listen(text, force=None):
     """Show a Listen control for text in the current language (or force='ml')."""
     ss = st.session_state
     which = force or lang()
-    if which == "ml" and sarvam_ready():
+    if which == "ml" and (sarvam_ready() or premade(text)):
         tag = hashlib.md5(text.encode("utf-8")).hexdigest()[:10]
         st.button("🔊 " + T("Listen"), key=f"listen-{tag}", on_click=_play, args=(text,))
         if ss.get("voice_play") == text:
             ss.voice_play = None            # play once, then clear
             try:
+                clip = premade(text)
+                if clip:                    # saved clip: no Sarvam call, no cost
+                    with open(clip, "rb") as fh:
+                        ss.voice_err = ""
+                        st.audio(fh.read(), format="audio/mp3", autoplay=True)
+                    return
                 audio = _sarvam_audio(text, LANG_CODE["ml"], _secret("SARVAM_MODEL", "bulbul:v4-flash"),
                                       _secret("SARVAM_SPEAKER", "shilpa_hi_narration"), float(_secret("SARVAM_PACE", "1.0")))
                 ss.voice_err = ""
@@ -2591,7 +2842,7 @@ def play(lesson):
 '''
 
 _HERE = _os.path.dirname(_os.path.abspath(__file__))
-for _name in ('content', 'storage', 'ml_ui', 'ml_lessons', 'ml_bank_seed', 'ml_bank_explore', 'ml_bank_pioneer', 'i18n', 'ui', 'voice', 'activities'):
+for _name in ('more_data_seed', 'more_data', 'content', 'storage', 'ml_ui', 'ml_lessons', 'ml_bank_seed', 'ml_bank_explore', 'ml_bank_pioneer', 'i18n', 'ui', 'voice', 'activities'):
     _bid = _hl.md5(_SOURCES[_name].encode('utf-8')).hexdigest()
     if getattr(_sys.modules.get(_name), '_ef_build', None) != _bid:
         _mod = _types.ModuleType(_name)
@@ -3104,7 +3355,7 @@ def quiz_view(l=None):
     md(f'<div class="nk-sub" style="text-align:center">{esc(T("Question {i} of {n}", i=qz["i"] + 1, n=n))}</div>')
     md(f'<div class="nk-q">{esc(q_text)}</div>')
     if ss.listen:
-        voice.listen(q_text + " " + ". ".join(opts))
+        voice.listen(q_text)   # question only, so one saved clip serves every shuffled order
     for oi, text in enumerate(opts):
         if qz["answered"]:
             state = "ok" if oi == q["right"] else "opt"
