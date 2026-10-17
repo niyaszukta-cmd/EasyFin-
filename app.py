@@ -1,9 +1,4 @@
-"""EasyFin, powered by NYZTrade. SINGLE FILE VERSION.
-
-Everything (content, storage, styling, games and screens) is in this one file, so it
-deploys by uploading only app.py plus requirements.txt. The first part below holds the
-supporting modules as text. The app itself starts after the line  # ===== APP =====
-"""
+"""EasyFin, powered by NYZTrade. SINGLE FILE VERSION (app.py + requirements.txt only)."""
 import os as _os
 import sys as _sys
 import types as _types
@@ -1481,10 +1476,9 @@ for _name in ("content", "storage", "ui", "activities"):
         exec(compile(_SOURCES[_name], _mod.__file__, "exec"), _mod.__dict__)
 
 # ===== APP =====
-"""EasyFin, powered by NYZTrade: money learning for ages 5 to 14.  Run:  streamlit run app.py
-
-Practice money only. No real trading, no tips, no advice.
-"""
+# EasyFin, powered by NYZTrade: money learning for ages 5 to 14.  Run:  streamlit run app.py
+#
+# Practice money only. No real trading, no tips, no advice.
 import datetime
 import random
 import time
