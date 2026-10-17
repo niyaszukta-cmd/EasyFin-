@@ -2633,6 +2633,9 @@ GLOBAL_BADGES = [
 # ------------------------------------------------------------------ state
 def init():
     ss = st.session_state
+    if "lang" not in ss:   # sessions opened before the Malayalam update have no language yet
+        _l = storage.settings().get("lang", "en")
+        ss.lang = _l if _l in ("en", "ml") else "en"
     if "boot" in ss:
         return
     ss.boot = True
