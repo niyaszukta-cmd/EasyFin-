@@ -1887,9 +1887,9 @@ For a natural Malayalam voice, add a Sarvam AI key (https://www.sarvam.ai). Set 
 .streamlit/secrets.toml (or the Streamlit Cloud "Secrets" box) or as an environment variable:
 
     SARVAM_API_KEY = "your-key"
-    SARVAM_MODEL   = "bulbul:v2"      # optional
-    SARVAM_SPEAKER = "anushka"        # optional, must match the model
-    SARVAM_PACE    = "0.9"            # optional
+    SARVAM_MODEL   = "bulbul:v4-flash" # optional
+    SARVAM_SPEAKER = "shilpa_hi_narration"  # optional, must match the model
+    SARVAM_PACE    = "1.0"            # optional
 
 Audio is requested only when the Listen button is pressed, and each sentence is cached.
 """
@@ -1897,6 +1897,7 @@ import base64
 import hashlib
 import json
 import os
+import urllib.error
 import urllib.request
 
 import streamlit as st
@@ -1926,12 +1927,16 @@ def _sarvam_audio(text, code, model, speaker, pace):
     key = _secret("SARVAM_API_KEY")
     if not key:
         raise RuntimeError("No Sarvam key")
-    body = {"text": text[:1400], "language_code": code, "model": model, "speaker": speaker, "pace": pace}
+    body = {"text": text[:1400], "target_language_code": code, "model": model, "speaker": speaker, "pace": pace,
+            "speech_sample_rate": 24000}
     req = urllib.request.Request(
         SARVAM_URL, data=json.dumps(body).encode("utf-8"), method="POST",
         headers={"Content-Type": "application/json", "api-subscription-key": key})
-    with urllib.request.urlopen(req, timeout=25) as resp:
-        data = json.loads(resp.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(req, timeout=25) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        raise RuntimeError("Sarvam %s: %s" % (exc.code, exc.read().decode("utf-8", "ignore")[:120]))
     return base64.b64decode(data["audios"][0])
 
 
@@ -1996,8 +2001,8 @@ def listen(text, force=None):
         if ss.get("voice_play") == text:
             ss.voice_play = None            # play once, then clear
             try:
-                audio = _sarvam_audio(text, LANG_CODE["ml"], _secret("SARVAM_MODEL", "bulbul:v2"),
-                                      _secret("SARVAM_SPEAKER", "anushka"), float(_secret("SARVAM_PACE", "0.9")))
+                audio = _sarvam_audio(text, LANG_CODE["ml"], _secret("SARVAM_MODEL", "bulbul:v4-flash"),
+                                      _secret("SARVAM_SPEAKER", "shilpa_hi_narration"), float(_secret("SARVAM_PACE", "1.0")))
                 ss.voice_err = ""
                 st.audio(audio, format="audio/wav", autoplay=True)
             except Exception as exc:       # fall back to the browser voice below
